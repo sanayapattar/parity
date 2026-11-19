@@ -1,0 +1,1841 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Parity: a case-file game about women whose discoveries were credited to someone else.">
+<meta property="og:title" content="Parity">
+<meta property="og:description" content="Their names were left off the record. Open the files and put them back.">
+<style>*,*::before,*::after{box-sizing:border-box}html{color-scheme:dark;-webkit-text-size-adjust:100%}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Parity</title>
+<meta name="robots" content="noindex, nofollow, noarchive, noai, noimageai">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Rubik+Dirt&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: an archive drawer at night. Manila folders, paper exhibits and red stamps over a faded atom diagram. */
+/* Palette: grayscale archive, like a darkroom print. The only colour is the evidence: manila folders, red stamps, her name. */
+:root {
+  --bg: #0D0D0D;
+  --bg-2: #171717;
+  --plum: #1C1C1C;
+  --indigo: #2B2B2B;
+  --ink: #ECEAE6;
+  --ink-soft: #9C9A96;
+  --accent: #ECEAE6;
+  --line: rgba(236, 234, 230, .2);
+  --paper: #ECE5CC;
+  --paper-2: #DDD2B1;
+  --on-paper: #24201A;
+  --on-paper-soft: #6A5F4E;
+  --manila: #C9A86A;
+  --manila-dk: #A6854A;
+  --stamp: #D9473E;
+  --shadow: rgba(0, 0, 0, .6);
+  --chip: rgba(236, 234, 230, .06);
+  --grain: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22220%22%20height%3D%22220%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%22.9%22%20numOctaves%3D%222%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%20.8%20%200%200%200%200%20.8%20%200%200%200%200%20.8%20%200%200%200%20.09%200%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E");
+  --f-display: "Special Elite", "American Typewriter", "Courier New", monospace;
+  --f-body: "Courier Prime", "Courier New", Courier, monospace;
+  --f-type: "Special Elite", "American Typewriter", "Courier New", monospace;
+  --f-stamp: "Rubik Dirt", Impact, "Arial Black", sans-serif;
+  --f-receipt: "Courier Prime", "Courier New", monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  background-color: var(--bg); color: var(--ink);
+  background-image: var(--grain), radial-gradient(55% 45% at 88% 6%, rgba(255, 255, 255, .07), transparent 72%), radial-gradient(50% 45% at 4% 96%, rgba(255, 255, 255, .04), transparent 70%), linear-gradient(180deg, var(--bg), var(--bg-2));
+  background-size: 220px 220px, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  background-repeat: repeat, no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed;
+  font: 16px/1.6 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+  overflow-x: hidden;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--stamp); outline-offset: 3px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 400; }
+p { margin: 0; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 300;
+  background: rgba(13, 13, 13, .82); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  padding-block: 14px; border-bottom: 1.5px solid var(--line);
+}
+.brand { display: flex; align-items: baseline; gap: 8px; text-decoration: none; color: var(--ink); background: none; border: 0; padding: 0; }
+.ptlogo { --t: 38px; display: inline-flex; gap: calc(var(--t) * .09); }
+.el { position: relative; width: var(--t); height: var(--t); background: var(--ink); color: var(--bg); border-radius: 2px; display: grid; place-items: center; }
+.el b { font: 400 calc(var(--t) * .5)/1 var(--f-display); margin-top: calc(var(--t) * .02); }
+.el i { position: absolute; top: 5%; right: 8%; font: 700 calc(var(--t) * .17)/1 var(--f-body); font-style: normal; }
+.el s { position: absolute; left: 0; right: 0; bottom: 7%; text-align: center; text-decoration: none; font: 700 calc(var(--t) * .105)/1 var(--f-body); }
+.ptlogo.sm s { display: none; }
+.ptlogo.sm .el b { margin-top: calc(var(--t) * .1); }
+.ptlogo.big { --t: clamp(46px, 8.6vw, 104px); }
+@media (max-width: 820px) { .ptlogo.big { --t: min(15vw, 96px); } }
+.ptlogo.big .el { filter: url(#stampy); animation: drop .55s cubic-bezier(.3, 1.5, .5, 1) both; }
+.ptlogo.big .el:nth-child(2) { animation-delay: .07s; } .ptlogo.big .el:nth-child(3) { animation-delay: .14s; } .ptlogo.big .el:nth-child(4) { animation-delay: .21s; } .ptlogo.big .el:nth-child(5) { animation-delay: .28s; }
+.ptlogo.big .el:nth-child(3) { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
+@keyframes drop { from { transform: translateY(-18px) rotate(-4deg); opacity: .001; } to { transform: none; opacity: 1; } }
+.nav { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.nav button {
+  border: 1.5px solid var(--line); background: transparent; border-radius: 999px;
+  padding: 6px 14px; font-weight: 600; font-size: 14px;
+}
+.nav button[aria-current="page"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.rankchip { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; font-weight: 600; color: var(--ink-soft); padding-left: 6px; }
+
+/* ---------- shared bits ---------- */
+.eyebrow { font: 600 12px/1.2 var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); color: var(--bg); border: 0; border-radius: 4px;
+  padding: 13px 22px; font-weight: 700; font-size: 15px; letter-spacing: .02em;
+  box-shadow: 0 3px 0 var(--shadow); transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 5px 0 var(--shadow); }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--shadow); }
+.btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); box-shadow: none; }
+.btn.red { background: var(--stamp); color: var(--paper); }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.on-paper .btn { background: var(--on-paper); color: var(--paper); }
+.on-paper .btn.ghost { background: transparent; color: var(--on-paper); border-color: var(--on-paper); }
+
+.stamp {
+  display: inline-block; font: 28px/1 var(--f-stamp); letter-spacing: .04em; text-transform: uppercase;
+  color: var(--stamp); border: 4px solid var(--stamp); border-radius: 6px; padding: 6px 12px 4px;
+  transform: rotate(-7deg); mix-blend-mode: multiply; opacity: .9;
+}
+.stamp.small { font-size: 16px; border-width: 2.5px; padding: 4px 8px 2px; }
+.stamp.ink { color: var(--ink); border-color: var(--ink); mix-blend-mode: normal; }
+
+.paper {
+  background: var(--paper); color: var(--on-paper);
+  box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 26px -10px var(--shadow);
+  background-image: repeating-linear-gradient(0deg, transparent 0 27px, rgba(80,60,30,.06) 27px 28px);
+}
+
+.view { padding-top: 28px; }
+/* The atom photo: sized to the image itself so its edges can fade out on every side (no hard seam). Contrast pushes the photo's grey ground to black, which the screen blend drops. */
+.bgphoto { position: fixed; top: 0; right: 0; height: 100vh; aspect-ratio: 619 / 1100; max-width: 100vw; z-index: 0; pointer-events: none;
+  background: url("atom.jpg") center top / cover no-repeat; mix-blend-mode: screen; opacity: .55; filter: grayscale(1) brightness(.9) contrast(1.5);
+  -webkit-mask-image: radial-gradient(75% 65% at 62% 42%, #000 35%, transparent 100%); mask-image: radial-gradient(75% 65% at 62% 42%, #000 35%, transparent 100%); }
+@media (max-width: 820px) { .bgphoto { left: 0; width: 100vw; aspect-ratio: auto; opacity: .3; } }
+.wrap { position: relative; z-index: 1; }
+.view[hidden] { display: none !important; }
+
+/* ---------- home ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: center; padding-block: 24px 40px; }
+.hero h1 { line-height: 1; margin-top: 16px; }
+.hero .lede { font-size: 19px; max-width: 34ch; margin-top: 22px; }
+.hero .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+.hero .meta { margin-top: 26px; display: flex; gap: 22px; flex-wrap: wrap; font-size: 14px; color: var(--ink-soft); }
+.hero .meta b { display: block; font: 30px/1 var(--f-display); color: var(--ink); font-weight: 400; font-variant-numeric: tabular-nums; }
+
+.herofile { position: relative; aspect-ratio: 4/3.3; max-width: 100%; }
+.herofile .back { position: absolute; inset: 8% 0 0 0; background: var(--manila-dk); border-radius: 4px 12px 6px 6px; }
+.herofile .back::before { content: ""; position: absolute; left: 6%; top: -9%; width: 34%; height: 11%; background: var(--manila-dk); border-radius: 8px 8px 0 0; }
+.herofile .sheet { position: absolute; left: 7%; right: 9%; top: 2%; bottom: 14%; padding: 7% 8%; transform: rotate(-3deg); display: flex; flex-direction: column; gap: 10px; font-family: var(--f-type); font-size: clamp(12px, 1.5vw, 15px); }
+.herofile .sheet .rule { border-top: 1px dashed var(--on-paper-soft); }
+.herofile .sheet .x { text-decoration: line-through; text-decoration-color: var(--stamp); text-decoration-thickness: 3px; }
+.herofile .front { position: absolute; inset: 30% 0 0 0; background: var(--manila); border-radius: 4px 4px 6px 6px; box-shadow: 0 -2px 0 rgba(0,0,0,.06), 0 16px 30px -12px var(--shadow); display: grid; place-items: center; }
+.herofile .front .stamp { font-size: clamp(22px, 3.6vw, 40px); border-width: 5px; transform: rotate(-9deg); }
+.herofile .front .lbl { position: absolute; left: 6%; bottom: 8%; font: 12px var(--f-type); color: var(--on-paper-soft); }
+
+.loop { margin-top: 12px; border-top: 1.5px solid var(--line); padding-top: 28px; }
+.loop ol { list-style: none; padding: 0; margin: 16px 0 0; display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 14px; counter-reset: s; }
+.loop li { counter-increment: s; border-top: 3px solid var(--ink); padding-top: 10px; font-size: 14px; color: var(--ink-soft); }
+.loop li b { display: block; font: 22px/1.1 var(--f-display); font-weight: 400; color: var(--ink); margin-bottom: 4px; }
+.loop li b::before { content: counter(s) " · "; font: 600 12px var(--f-body); letter-spacing: .1em; color: var(--ink-soft); vertical-align: middle; }
+
+/* ---------- case drawer ---------- */
+.drawerhead { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.drawerhead h2 { font: clamp(34px, 5vw, 52px)/1 var(--f-display); }
+.regions { display: flex; gap: 6px; flex-wrap: wrap; }
+.regions button { border: 1.5px solid var(--line); background: var(--chip); border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; }
+.regions button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.regions button span { opacity: .65; font-variant-numeric: tabular-nums; margin-left: 4px; }
+
+.drawer { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 30px 18px; padding-top: 18px; }
+.folder { position: relative; border: 0; background: none; padding: 0; text-align: left; aspect-ratio: 5/4; max-width: 100%; transition: transform .18s ease; }
+.folder:hover:not([disabled]) { transform: translateY(-5px) rotate(-.6deg); }
+.folder .tab { position: absolute; top: -14px; left: 10px; height: 22px; padding: 2px 12px 0; background: var(--manila-dk); border-radius: 7px 7px 0 0; font: 12px/20px var(--f-type); color: var(--on-paper); }
+.folder .body { position: absolute; inset: 0; background: var(--manila); border-radius: 3px 8px 6px 6px; box-shadow: 0 12px 22px -12px var(--shadow); padding: 16px 14px 12px; display: flex; flex-direction: column; justify-content: space-between; color: var(--on-paper); overflow: hidden; }
+.folder .body .who { font: 21px/1.1 var(--f-display); }
+.folder .body .fld { font: 12.5px/1.35 var(--f-type); color: var(--on-paper-soft); }
+.folder .body .foot { display: flex; justify-content: space-between; align-items: end; font: 600 11px var(--f-body); letter-spacing: .12em; text-transform: uppercase; color: var(--on-paper-soft); }
+.folder .stamp { position: absolute; right: 8px; bottom: 24px; font-size: 15px; border-width: 2.5px; padding: 4px 7px 2px; transform: rotate(-12deg); }
+.folder.locked .body { background: repeating-linear-gradient(-45deg, var(--manila) 0 14px, var(--paper-2) 14px 28px); }
+.folder.locked .who { filter: blur(5px); user-select: none; }
+.folder[disabled] { cursor: not-allowed; }
+.folder.drop .body { background: var(--indigo); color: var(--paper); }
+.folder.drop .tab { background: var(--indigo); color: var(--paper); filter: brightness(.85); }
+.folder.drop .fld, .folder.drop .foot { color: var(--paper); opacity: .75; }
+.folder.drop .who { filter: none; letter-spacing: .3em; }
+
+/* ---------- case player ---------- */
+.casebar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 18px; }
+.casebar .back { background: none; border: 0; padding: 0; font-weight: 600; color: var(--ink-soft); }
+.steps { display: flex; gap: 4px; flex-wrap: wrap; }
+.steps span { font: 600 11px/1 var(--f-body); letter-spacing: .12em; text-transform: uppercase; padding: 7px 10px; border-radius: 5px 5px 0 0; background: var(--chip); color: var(--ink-soft); border-bottom: 2px solid transparent; }
+.steps span.on { background: var(--manila); color: var(--on-paper); }
+.steps span.done { color: var(--ink); border-bottom-color: var(--ink); }
+
+.stage { position: relative; }
+.panel { animation: rise .45s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes rise { from { opacity: .001; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* myth */
+.myth { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.myth .claim { font: clamp(28px, 4vw, 44px)/1.12 var(--f-display); }
+.myth .q { margin-top: 18px; color: var(--ink-soft); font-size: 17px; max-width: 42ch; }
+.plaque { padding: 30px 28px 26px; border-radius: 4px; position: relative; text-align: center; }
+.plaque .lbl { font: 600 12px var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--on-paper-soft); }
+.plaque .famous { font: clamp(30px, 4.4vw, 46px)/1.05 var(--f-display); margin: 10px 0 12px; }
+.plaque .prize { font: 700 clamp(17px, 1.9vw, 21px)/1.3 var(--f-body); color: var(--on-paper); }
+.plaque .medal { width: 64px; height: 64px; border-radius: 50%; margin: 0 auto 14px; background: radial-gradient(circle at 35% 30%, #F4DC8C, #C49A3A 60%, #8F6A1F); box-shadow: inset 0 0 0 4px rgba(255,255,255,.25); }
+.plaque .medal.none { background: none; border: 3px dashed var(--on-paper-soft); box-shadow: none; }
+
+/* evidence */
+.desk { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 18px; }
+.exhibit { display: block; width: 100%; perspective: 900px; border: 0; background: none; padding: 0; min-height: 230px; text-align: left; }
+.exhibit .inner { display: block; }
+.exhibit .inner { position: relative; width: 100%; height: 100%; min-height: 230px; transition: transform .6s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+.exhibit.open .inner { transform: rotateY(180deg); }
+.exhibit .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 4px; padding: 18px; display: flex; flex-direction: column; }
+.exhibit .front { background: var(--manila); color: var(--on-paper); box-shadow: 0 12px 22px -12px var(--shadow); justify-content: space-between; }
+.exhibit .front .big { font: 54px/1 var(--f-display); }
+.exhibit .front .pull { font: 600 12px var(--f-body); letter-spacing: .14em; text-transform: uppercase; }
+.exhibit .backf { transform: rotateY(180deg); gap: 10px; overflow: auto; }
+.exhibit .backf .kind { font: 600 11px var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--stamp); }
+.exhibit .backf p { font: 15px/1.5 var(--f-type); }
+.exhibit:not(.open):hover .inner { transform: rotate(-1.5deg) translateY(-4px); }
+.deskfoot { margin-top: 22px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.deskfoot .count { font: 15px var(--f-type); color: var(--ink-soft); }
+
+/* court */
+.court h3 { font: clamp(28px, 4vw, 40px)/1.1 var(--f-display); max-width: 24ch; }
+.court .sub { color: var(--ink-soft); margin-top: 8px; }
+.suspects { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 24px; }
+.suspect { position: relative; border: 0; padding: 18px 16px 20px; border-radius: 4px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform .15s ease; }
+.suspect:hover:not([disabled]) { transform: translateY(-4px); }
+.suspect .name { font: 22px/1.1 var(--f-display); }
+.suspect .born { font: 13px var(--f-type); color: var(--on-paper-soft); }
+.suspect .stamp { position: absolute; top: 34%; left: 50%; transform: translate(-50%, -50%) rotate(-14deg); font-size: 22px; background: color-mix(in srgb, var(--paper) 70%, transparent); animation: thunk .28s ease-out both; }
+.suspect[disabled] { cursor: default; }
+.suspect.wrong { animation: shake .4s ease; }
+.suspect.wrong .portrait, .suspect.wrong .name { opacity: .4; }
+@keyframes shake { 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+@keyframes thunk { from { transform: translate(-50%, -50%) rotate(-14deg) scale(2.2); opacity: 0; } to { transform: translate(-50%, -50%) rotate(-14deg) scale(1); opacity: .9; } }
+.verdictmsg { margin-top: 18px; min-height: 1.6em; font: 16px var(--f-type); }
+
+.portrait { width: 92px; height: 112px; background: var(--paper-2); border: 6px solid #fff; box-shadow: 0 4px 10px -4px rgba(0,0,0,.35); position: relative; display: grid; place-items: center; transform: rotate(-2deg); }
+.portrait::before { content: ""; position: absolute; top: -12px; right: 14px; width: 12px; height: 30px; border: 2.5px solid #9A9A9A; border-radius: 6px; border-bottom-color: transparent; }
+.portrait span { font: 38px/1 var(--f-display); color: var(--on-paper); opacity: .78; }
+.portrait.lg { width: 140px; height: 170px; }
+.portrait.lg span { font-size: 58px; }
+
+/* reveal */
+.reveal { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 32px; align-items: start; }
+.scratchbox { padding: 24px; border-radius: 4px; text-align: center; }
+.scratchbox .lbl { font: 600 12px var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--on-paper-soft); }
+.scratch { position: relative; margin: 14px auto 10px; height: 120px; max-width: 100%; border-radius: 6px; overflow: hidden; border: 2px dashed var(--on-paper-soft); }
+.scratch .under { position: absolute; inset: 0; display: grid; place-items: center; font: clamp(26px, 3.6vw, 38px)/1.05 var(--f-display); color: var(--stamp); padding: 8px; }
+.scratch canvas { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.scratch.cleared canvas { transition: opacity .5s ease; opacity: 0; pointer-events: none; }
+.scratchhint { font: 13px var(--f-type); color: var(--on-paper-soft); display: flex; justify-content: center; gap: 12px; align-items: center; flex-wrap: wrap; }
+.linkbtn { background: none; border: 0; padding: 0; text-decoration: underline; color: inherit; font: inherit; }
+.story[hidden] { display: none !important; }
+.story { animation: rise .5s ease both; }
+.story h3 { font: clamp(34px, 4.6vw, 52px)/1 var(--f-display); }
+.story .born { margin-top: 6px; font: 14px var(--f-type); color: var(--ink-soft); }
+.story .body { margin-top: 18px; font-size: 17px; max-width: 58ch; display: grid; gap: 12px; }
+.facts { margin-top: 22px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 14px; }
+.facts div { border-top: 2px solid var(--ink); padding-top: 8px; font-size: 15px; }
+.facts dt { font: 600 11px var(--f-body); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 4px; }
+.facts dd { margin: 0; }
+.story .actions { margin-top: 26px; }
+.sources { margin-top: 18px; font-size: 14px; color: var(--ink-soft); }
+.sources > span:first-child { font: 600 11px var(--f-body); letter-spacing: .14em; text-transform: uppercase; margin-right: 10px; }
+.sources a { color: var(--ink); text-underline-offset: 3px; }
+
+/* reward */
+.reward { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: 36px; align-items: start; }
+.reward h3 { font: clamp(34px, 4.6vw, 50px)/1 var(--f-display); }
+.passstamp { margin: 24px 0; width: 170px; height: 170px; border-radius: 50%; border: 5px double var(--stamp); color: var(--stamp); display: grid; place-items: center; text-align: center; font: 15px/1.15 var(--f-stamp); text-transform: uppercase; transform: rotate(-11deg); animation: slam .5s cubic-bezier(.3,1.6,.5,1) both .1s; padding: 18px; }
+.passstamp b { display: block; font-size: 26px; font-weight: 400; }
+@keyframes slam { from { transform: rotate(-11deg) scale(2.4); opacity: 0; } to { transform: rotate(-11deg) scale(1); opacity: 1; } }
+.gains { display: grid; gap: 10px; max-width: 46ch; }
+.gain { display: flex; gap: 12px; align-items: center; padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 6px; background: var(--chip); font-size: 15px; }
+.gain b { font-weight: 700; }
+.gain .ic { width: 30px; height: 30px; flex: none; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font: 14px var(--f-display); }
+.gain.new { border-color: var(--stamp); }
+.gain.new .ic { background: var(--stamp); color: var(--paper); }
+.reward .actions { margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+/* receipt */
+.receipt {
+  width: 100%; max-width: 340px; aspect-ratio: 9/16; margin: 0 auto;
+  background: var(--paper); color: var(--on-paper); font: 12.5px/1.45 var(--f-receipt);
+  padding: 22px 20px; display: flex; flex-direction: column; gap: 8px; position: relative;
+  box-shadow: 0 18px 34px -16px var(--shadow);
+  -webkit-mask: radial-gradient(circle 6px at 50% 0, transparent 98%, #000) top/14px 51% repeat-x, radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) bottom/14px 51% repeat-x;
+          mask: radial-gradient(circle 6px at 50% 0, transparent 98%, #000) top/14px 51% repeat-x, radial-gradient(circle 6px at 50% 100%, transparent 98%, #000) bottom/14px 51% repeat-x;
+}
+.receipt .hd { text-align: center; }
+.receipt .hd .t { font: 30px/1 var(--f-display); letter-spacing: .06em; }
+.receipt .hd .s { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+.receipt .dash { border-top: 1.5px dashed var(--on-paper); margin: 4px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 10px; }
+.receipt .row span:last-child { text-align: right; }
+.receipt .x { text-decoration: line-through; text-decoration-color: var(--stamp); text-decoration-thickness: 2px; }
+.receipt .her { font: 26px/1.05 var(--f-display); color: var(--stamp); margin-top: 2px; }
+.receipt .tot { font-weight: 700; font-size: 14px; }
+.receipt .bar { margin-top: auto; height: 46px; background: repeating-linear-gradient(90deg, var(--on-paper) 0 2px, transparent 2px 4px, var(--on-paper) 4px 5px, transparent 5px 8px, var(--on-paper) 8px 11px, transparent 11px 12px); }
+.receipt .ft { text-align: center; font-size: 11px; letter-spacing: .1em; }
+.sharerow { margin-top: 12px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); text-align: center; }
+
+/* passport */
+.passport { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 32px; align-items: start; }
+.idcard { padding: 22px; border-radius: 6px; background: linear-gradient(160deg, var(--indigo), var(--plum)); color: var(--ink); }
+.idcard .k { font: 600 11px var(--f-body); letter-spacing: .16em; text-transform: uppercase; opacity: .7; }
+.idcard .rank { font: 34px/1.05 var(--f-display); margin: 6px 0 16px; }
+.ladder { display: grid; gap: 6px; margin-top: 8px; }
+.ladder div { display: flex; justify-content: space-between; font-size: 14px; opacity: .55; }
+.ladder div.on { opacity: 1; font-weight: 700; }
+.meter { height: 8px; border-radius: 4px; background: rgba(255,255,255,.2); overflow: hidden; margin: 6px 0 4px; }
+.meter i { display: block; height: 100%; background: currentColor; transition: width .6s ease; }
+.badges { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 20px; }
+.badge { border: 1.5px dashed var(--line); border-radius: 6px; padding: 12px; font-size: 13px; color: var(--ink-soft); }
+.badge b { display: block; font: 18px/1.15 var(--f-display); font-weight: 400; color: var(--ink); }
+.badge.got { border: 1.5px solid var(--stamp); background: var(--chip); }
+.badge.got b { color: var(--stamp); }
+.stamps { padding: 22px; border-radius: 6px; }
+.stamps h3 { font: 26px var(--f-display); }
+.stampgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 14px; margin-top: 16px; }
+.slot { aspect-ratio: 1; border: 1.5px dashed rgba(60,50,30,.3); border-radius: 50%; display: grid; place-items: center; text-align: center; font: 11px/1.2 var(--f-type); color: var(--on-paper-soft); padding: 12px; }
+.slot.got { border: 4px double var(--stamp); color: var(--stamp); font: 12px/1.1 var(--f-stamp); text-transform: uppercase; }
+.slot.got b { display: block; font-size: 15px; font-weight: 400; }
+.slot.got.r1 { transform: rotate(-9deg); } .slot.got.r2 { transform: rotate(7deg); border-color: var(--on-paper); color: var(--on-paper); } .slot.got.r3 { transform: rotate(-3deg); }
+.passport .reset { margin-top: 18px; font-size: 13px; color: var(--ink-soft); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--accent); color: var(--bg); padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 14px; z-index: 20; animation: rise .3s ease both; }
+
+footer { margin-top: 56px; padding-top: 18px; border-top: 1.5px solid var(--line); font-size: 13px; color: var(--ink-soft); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .hero, .myth, .reveal, .reward, .passport { grid-template-columns: minmax(0, 1fr); }
+  .herofile { max-width: 440px; }
+  .loop ol { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .desk, .suspects { grid-template-columns: minmax(0, 1fr); }
+  .exhibit, .exhibit .inner { min-height: 190px; }
+  .suspect { flex-direction: row; text-align: left; }
+  .suspect .portrait { width: 64px; height: 78px; flex: none; }
+  .suspect .portrait span { font-size: 26px; }
+  .suspect .stamp { left: auto; right: 10px; top: 50%; transform: translateY(-50%) rotate(-10deg); animation: none; }
+  .facts { grid-template-columns: minmax(0, 1fr); }
+}
+/* ---------- home: filing drawer (line drawing; the pulled-up file is paper) ---------- */
+.homehead { display: grid; gap: 16px; justify-items: center; text-align: center; padding-block: 18px 8px; }
+.homehead h1 { margin: 0; }
+.homehead .lede { font-size: 17px; max-width: 40ch; color: var(--ink-soft); }
+.cabinet { position: relative; z-index: 0; isolation: isolate; max-width: 760px; margin: 22px auto 0; transition: height .5s cubic-bezier(.2,.8,.2,1); }
+.cab-box { position: absolute; left: 1%; right: 1%; top: 0; bottom: 60px; border: 1.5px solid var(--ink); border-bottom: 0; border-radius: 16px 16px 0 0; opacity: .45; }
+.cfile { position: absolute; left: 4%; right: 4%; transition: top .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1); cursor: pointer; }
+.cfile.sel { cursor: default; }
+.cbody { position: absolute; inset: 0; background: var(--bg); border: 1.5px solid var(--ink); border-bottom: 0; border-radius: 12px 12px 0 0; overflow: hidden; }
+.ctab { position: absolute; left: var(--tx); bottom: calc(100% - 2px); width: 196px; height: 34px; padding: 0; border: 0; background: none; color: var(--ink); z-index: 1; transition: transform .15s ease; }
+.ctab svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ctab .fillp { fill: var(--bg); }
+.ctab .line { fill: none; stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.ctab span { position: relative; display: block; padding: 11px 34px 0; font: 700 11px/1 var(--f-body); letter-spacing: .12em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cfile:not(.sel):hover .ctab { transform: translateY(-3px); }
+.cfile.sel .cbody { background: var(--paper); border-color: var(--paper); }
+.cfile.sel .ctab .fillp { fill: var(--paper); }
+.cfile.sel .ctab .line { stroke: var(--paper); }
+.cfile.sel .ctab { color: var(--on-paper); }
+.cfile .sheet { visibility: hidden; }
+.cfile.sel .sheet { visibility: visible; animation: rise .45s ease both .12s; }
+.sheet { position: relative; margin: 22px 22px 0; padding: 20px; border: 1.5px dotted var(--on-paper-soft); color: var(--on-paper); display: grid; gap: 16px; }
+.sh-top { display: flex; justify-content: space-between; gap: 16px; align-items: start; }
+.sh-title { display: grid; justify-items: start; min-width: 0; }
+.inv { background: var(--on-paper); color: var(--paper); font: clamp(22px, 3.6vw, 34px)/1.15 var(--f-display); padding: 2px 10px; }
+.box { border: 1.5px solid var(--on-paper); border-top: 0; font: 700 clamp(10px, 1.6vw, 13px)/1 var(--f-body); letter-spacing: .26em; padding: 6px 10px; }
+.xbox { flex: none; width: 92px; height: 70px; border: 1.5px solid var(--on-paper); background: linear-gradient(to top right, transparent calc(50% - 1px), var(--on-paper) 50%, transparent calc(50% + 1px)), linear-gradient(to bottom right, transparent calc(50% - 1px), var(--on-paper) 50%, transparent calc(50% + 1px)); display: grid; place-items: center; font: 28px var(--f-display); }
+.xbox.found { background: var(--on-paper); color: var(--paper); }
+.sh-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; border-top: 1.5px dotted var(--on-paper-soft); padding-top: 14px; }
+.sh-k { font: 700 10.5px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--on-paper-soft); margin-bottom: 6px; }
+.sh-claim { font: 15px/1.45 var(--f-body); }
+.sh-who { border: 1.5px solid var(--on-paper); padding: 10px 12px; }
+.sh-name { font: clamp(20px, 2.8vw, 26px)/1.15 var(--f-display); display: grid; gap: 4px; }
+.sh-name .xout { text-decoration: line-through; text-decoration-color: var(--stamp); text-decoration-thickness: 3px; font-size: .7em; color: var(--on-paper-soft); }
+.sh-name .her { color: var(--stamp); }
+.sh-tbl { border-collapse: collapse; color: var(--on-paper); font: 13px var(--f-body); width: 100%; max-width: 440px; }
+.sh-tbl th, .sh-tbl td { border: 1.5px solid var(--on-paper); padding: 5px 10px; text-align: left; }
+.sh-tbl th { font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 11px; width: 32%; }
+.sheet .btn.sh-open { justify-self: start; background: var(--on-paper); color: var(--paper); box-shadow: 0 3px 0 rgba(0,0,0,.25); }
+.sh-stamp { position: absolute; right: 18px; bottom: 22px; font-size: 18px; }
+.cab-front { position: absolute; left: 0; right: 0; height: 170px; z-index: 100; transition: top .5s cubic-bezier(.2,.8,.2,1); }
+.cab-front svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cab-front polygon { fill: var(--bg); stroke: var(--ink); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.handle { position: absolute; left: 50%; top: 28%; transform: translateX(-50%); width: 120px; height: 34px; }
+.handle i { position: absolute; left: 0; right: 0; height: 14px; border: 1.5px solid var(--ink); border-radius: 10px 10px 4px 4px; background: var(--bg); }
+.handle i:nth-child(1) { top: 0; } .handle i:nth-child(2) { top: 8px; } .handle i:nth-child(3) { top: 16px; }
+.cab-label { position: absolute; left: 0; right: 0; bottom: 22%; text-align: center; font: 700 11px var(--f-body); letter-spacing: .24em; color: var(--ink-soft); }
+.ledger { max-width: 760px; margin: 22px auto 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 260px); gap: 24px; align-items: start; }
+.spread { font: 700 12px/1.9 var(--f-body); text-transform: uppercase; letter-spacing: .14em; text-align: justify; text-align-last: justify; color: var(--ink-soft); }
+.tbl { border-collapse: collapse; width: 100%; color: var(--ink); font: 14px var(--f-body); }
+.tbl th, .tbl td { border: 1.5px solid var(--ink); padding: 6px 12px; text-align: left; }
+.tbl th { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; width: 40%; }
+.tbl td { text-align: right; font-variant-numeric: tabular-nums; }
+/* drawer open/close + riffle */
+.cab-front { display: block; padding: 0; border: 0; background: none; color: var(--ink); cursor: pointer; font: inherit; text-align: center; }
+.cab-front .handle { top: 52%; transition: transform .15s ease; }
+.cab-front:hover .handle { transform: translateX(-50%) translateY(3px); }
+.labelholder { position: absolute; left: 50%; top: 12%; transform: translateX(-50%); border: 1.5px solid var(--ink); padding: 5px 14px; font: 700 10px/1.4 var(--f-body); letter-spacing: .22em; color: var(--ink-soft); background: var(--bg); white-space: nowrap; }
+.labelholder b { display: block; color: var(--ink); letter-spacing: .18em; }
+.cab-hint { position: absolute; left: 0; right: 0; bottom: 12%; font: 700 11px var(--f-body); letter-spacing: .28em; text-transform: uppercase; color: var(--ink-soft); }
+.cabinet.closed .cab-hint { color: var(--ink); }
+.cabinet.closed .cab-hint::after { content: " ↓"; display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+.labelholder, .cab-hint, .handle { pointer-events: none; }
+.cfile { transition: top .55s cubic-bezier(.2,.8,.2,1), height .55s cubic-bezier(.2,.8,.2,1), transform .18s ease; }
+.cabinet:not(.closed) .cfile:not(.sel):hover { transform: translateY(-7px); }
+.cabinet.riffle .cfile:not(.sel) .ctab { animation: riffle .5s ease both; animation-delay: calc(var(--i) * 40ms + .35s); }
+@keyframes riffle { 40% { transform: translateY(-10px) rotate(-1.5deg); } 70% { transform: translateY(2px); } }
+@media (max-width: 560px) {
+  .ctab { width: 126px; }
+  .ctab span { padding: 11px 22px 0; font-size: 9.5px; letter-spacing: .08em; }
+  .sheet { margin: 16px 10px 0; padding: 14px; }
+  .sh-grid, .ledger { grid-template-columns: minmax(0, 1fr); }
+  .xbox { width: 64px; height: 52px; }
+  .cab-front { height: 130px; }
+  .handle { width: 90px; }
+  .spread { text-align-last: left; }
+}
+
+/* ---------- intro slides: a gritty grey print, then a scanned-film page ---------- */
+.intro { padding-top: 0; }
+body.on-intro .topbar, body.on-intro footer { display: none; }
+.slide { margin-inline: calc(50% - 50vw); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); min-height: 100svh; position: relative; display: grid; color: #141414; }
+.s1 { --grit: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%221.1%22%20numOctaves%3D%223%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%200%20%200%200%200%200%200%20%200%200%200%200%200%20%200%200%200%20-1.3%20.62%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"); background-color: #CDCDC9; background-image: var(--grit), radial-gradient(70% 60% at 70% 40%, rgba(255,255,255,.45), transparent 70%), linear-gradient(180deg, #D6D6D2, #BEBEBA); background-size: 260px 260px, 100% 100%, 100% 100%; align-items: end; overflow: hidden; }
+.s1-inner { position: relative; width: 100%; max-width: 1400px; margin: 0 auto; min-height: 100svh; }
+.justice { position: absolute; left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); bottom: 0; width: min(70vw, calc(94svh * 1.415), 1240px); max-width: none; mix-blend-mode: multiply; filter: contrast(1.05); }
+.s1-text { position: absolute; right: 2%; top: 10svh; width: min(39%, 540px); z-index: 1; }
+.pword { font: clamp(60px, 8.2vw, 150px)/.9 var(--f-display); white-space: nowrap; letter-spacing: .02em; color: #121212; animation: inkin 1.1s ease both; }
+@keyframes inkin { from { opacity: .001; filter: blur(6px); letter-spacing: .2em; } to { opacity: 1; filter: none; letter-spacing: .02em; } }
+.defn { margin-top: 22px; max-width: 34ch; font: 16px/1.55 var(--f-body); color: #1E1E1E; }
+.pron { font-weight: 700; font-size: 18px; }
+.pron span { font-weight: 400; color: #4A4A48; } .pron i { font-weight: 400; color: #4A4A48; }
+.defn ol { margin: 12px 0 0; padding-left: 1.4em; display: grid; gap: 10px; }
+.cue { position: absolute; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); font: 700 12px var(--f-body); letter-spacing: .24em; text-transform: uppercase; color: #141414; text-decoration: none; background: rgba(205,205,201,.75); border: 0; padding: 6px 12px; }
+.cue span { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(4px); } }
+.s2 { --grit: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22260%22%20height%3D%22260%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%221.1%22%20numOctaves%3D%223%22%20stitchTiles%3D%22stitch%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%200%20%200%200%200%200%200%20%200%200%200%200%200%20%200%200%200%20-1.3%20.62%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url%28%23n%29%22%2F%3E%3C%2Fsvg%3E"); background-color: #737371;
+  background-image: var(--grit),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 3px, rgba(0,0,0,.06) 3px 4px, transparent 4px 9px),
+    linear-gradient(90deg, rgba(255,255,255,.55) 0, rgba(255,255,255,.18) 7%, transparent 15%, transparent 72%, rgba(0,0,0,.28) 100%),
+    linear-gradient(180deg, rgba(0,0,0,.4), transparent 24%, transparent 62%, rgba(255,255,255,.08) 70%, transparent 78%, rgba(0,0,0,.35));
+  background-size: 260px 260px, 100% 100%, 100% 100%, 100% 100%;
+  place-items: center; }
+.s2-inner { max-width: 620px; padding-block: 72px; display: grid; gap: 22px; justify-items: start; }
+.s2 h2 { font: clamp(34px, 5vw, 56px)/1.05 var(--f-display); color: #0E0E10; }
+.s2-body { display: grid; gap: 14px; font: 17px/1.6 var(--f-body); color: #111113; }
+.s2 .btn.s2-go { background: #111113; color: #E6E5E1; box-shadow: 0 3px 0 rgba(0,0,0,.35); font-size: 16px; padding: 15px 26px; }
+.s2-cite { font: 12px/1.5 var(--f-body); color: #1C1C1E; max-width: 60ch; }
+@media (max-width: 820px) {
+  .s1-text { position: relative; right: auto; top: auto; width: auto; padding-top: 8svh; }
+  .pword { font-size: clamp(56px, 19vw, 110px); }
+  .justice { width: 125vw; left: -18vw; }
+}
+
+/* ---------- scene, court records, identified, dedication ---------- */
+.scene { max-width: 780px; display: grid; gap: 22px; padding-block: 18px 6px; }
+.codename { font: clamp(40px, 7vw, 84px)/1 var(--f-display); text-wrap: balance; }
+.codename span { display: block; font: 700 12px var(--f-body); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 12px; }
+.coldopen { font: clamp(18px, 2.2vw, 22px)/1.65 var(--f-body); max-width: 52ch; padding-left: 18px; border-left: 2px solid var(--ink); }
+.suspects .suspect.record { flex-direction: column; align-items: stretch; text-align: left; gap: 8px; min-height: 190px; padding: 18px; }
+.record .rec { font: 700 11px var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--on-paper-soft); }
+.record .role { font: 19px/1.25 var(--f-display); }
+.record .detail { font: 14px/1.5 var(--f-body); }
+.record .who { margin-top: auto; font: 700 14px/1.4 var(--f-body); color: var(--stamp); }
+.suspect.record.wrong .role, .suspect.record.wrong .detail { opacity: .45; }
+.suspects .suspect.record .stamp { top: auto; bottom: 12px; left: auto; right: 12px; transform: rotate(-10deg); animation: none; }
+.suspects .suspect.record .who { padding-right: 110px; }
+.recall { margin-top: 14px; font-size: 14px; color: var(--ink-soft); max-width: 70ch; }
+.recall summary { cursor: pointer; font-weight: 700; color: var(--ink); }
+.recall ol { margin: 10px 0 0; padding-left: 1.3em; display: grid; gap: 6px; }
+.idbar { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 14px; font: 700 11px var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--on-paper-soft); }
+.idbar b { font: 400 22px var(--f-display); letter-spacing: 0; color: var(--on-paper); text-transform: none; }
+.idstamp { transform: rotate(-8deg); animation: slam .4s cubic-bezier(.3,1.6,.5,1) both; }
+.ded { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); gap: 44px; align-items: center; padding-block: 24px 10px; }
+.ded-photo { margin: 0; }
+.ded-photo img { display: block; width: 100%; max-width: 100%; border: 12px solid var(--paper); box-shadow: 0 18px 40px -18px rgba(0,0,0,.8); filter: grayscale(1) contrast(1.08); transform: rotate(-1.5deg); }
+.ded-photo figcaption { margin-top: 14px; font: 13px var(--f-body); color: var(--ink-soft); }
+.ded-text { display: grid; gap: 16px; justify-items: start; max-width: 60ch; }
+.ded-text h2 { font: clamp(44px, 6vw, 72px)/1 var(--f-display); }
+.ded-sub { font: italic 17px var(--f-body); color: var(--ink-soft); }
+.ded-text p:not(.eyebrow):not(.ded-sub) { font: 17px/1.75 var(--f-body); }
+footer .linkbtn { color: var(--ink); }
+@media (max-width: 820px) { .ded { grid-template-columns: minmax(0, 1fr); gap: 28px; } .ded-photo { max-width: 420px; } }
+
+/* ---------- narrative layer ---------- */
+.narrator { font: italic 16px/1.5 var(--f-body); color: var(--ink-soft); margin-bottom: 6px; }
+.scene { cursor: pointer; min-height: 52vh; align-content: start; }
+.sc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sc-skip { font-size: 13px; color: var(--ink-soft); }
+.beats { display: grid; gap: 18px; max-width: 760px; }
+.beat { font: clamp(18px, 2.3vw, 24px)/1.6 var(--f-body); min-height: 1.6em; }
+.beat.dateline { justify-self: start; font: 700 clamp(15px, 1.8vw, 18px)/1.3 var(--f-body); letter-spacing: .2em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); padding: 6px 12px 5px; }
+.sc-top .eyebrow { font: 700 clamp(14px, 1.6vw, 16px)/1.3 var(--f-body); letter-spacing: .2em; color: var(--ink); }
+.sc-top .eyebrow b { background: var(--ink); color: var(--bg); padding: 2px 8px; margin-right: 4px; }
+.beat.past { opacity: .62; }
+.scene.cont { animation: none; }
+.beat.now { animation: rise .35s ease both; }
+.beat.past.dateline { opacity: 1; }
+.beat.now:not(.typed)::after { content: "▍"; animation: blink 1s steps(1) infinite; margin-left: 2px; }
+@keyframes blink { 50% { opacity: 0; } }
+.sc-next { justify-self: start; border: 0; background: none; padding: 6px 0; color: var(--ink); font: 700 12px var(--f-body); letter-spacing: .24em; text-transform: uppercase; }
+.sc-next span { display: inline-block; animation: nudge 1.6s ease-in-out infinite; }
+.sc-end { display: grid; gap: 14px; margin-top: 10px; padding-top: 22px; border-top: 1.5px dashed var(--line); animation: rise .5s ease both; }
+.sc-earn { font: italic 17px var(--f-body); color: var(--ink-soft); }
+.told { font: clamp(19px, 2.3vw, 24px)/1.6 var(--f-body); margin-top: 14px; max-width: 46ch; }
+.howbox { margin-top: 18px; padding: 16px 18px; border: 1.5px solid var(--line); background: var(--chip); max-width: 62ch; }
+.howbox p:last-child { font-size: 16.5px; line-height: 1.65; }
+.sh-k2 { font: 700 11px var(--f-body); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); margin: 18px 0 8px; }
+.howbox .sh-k2 { margin-top: 0; }
+.exhibit { cursor: pointer; }
+.term { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: help; text-decoration: underline dotted; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.term:hover { text-decoration-style: solid; }
+.termcard { position: fixed; z-index: 400; background: var(--paper); color: var(--on-paper); padding: 14px 16px 12px; box-shadow: 0 16px 34px -12px rgba(0,0,0,.7); border-top: 4px solid var(--on-paper); font: 14.5px/1.5 var(--f-body); animation: rise .2s ease both; }
+.termcard b { display: block; font: 18px/1.2 var(--f-display); margin-bottom: 6px; }
+.tc-note { display: block; margin-top: 8px; font: 700 10px var(--f-body); letter-spacing: .16em; text-transform: uppercase; color: var(--on-paper-soft); }
+.words { grid-column: 1 / -1; padding: 22px; border-radius: 6px; }
+.words h3 { font: 26px var(--f-display); }
+.w-sub, .w-empty { color: var(--on-paper-soft); font-size: 14px; margin-top: 4px; }
+.wordlist { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px 22px; margin: 16px 0 0; }
+.wordlist dt { font: 17px var(--f-display); }
+.wordlist dd { margin: 2px 0 0; font-size: 14px; color: var(--on-paper-soft); }
+.s2-q { font-weight: 700; }
+.s2-choice { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.s2 .btn.s2-stay { background: transparent; color: #2A2A2C; border: 1.5px solid rgba(17,17,19,.35); box-shadow: none; opacity: .75; font-size: 15px; padding: 14px 22px; }
+.s2 .btn.s2-stay:hover { opacity: 1; }
+.s2-stayline { min-height: 1.6em; font: italic 18px var(--f-body); color: #0E0E10; }
+footer { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 14px; }
+.ptlogo.foot { --t: 34px; opacity: .3; }
+.ptlogo.foot .el b { margin-top: calc(var(--t) * .1); }
+.foot-links { font-size: 12.5px; }
+
+/* myth: the prize as a line-drawn certificate (no paper; colour stays reserved for evidence) */
+.award { position: relative; border: 1.5px solid var(--ink); padding: 30px 28px 28px; text-align: center; display: grid; gap: 14px; justify-items: center; background: rgba(13,13,13,.55); box-shadow: inset 0 0 0 6px var(--bg), inset 0 0 0 7.5px var(--ink); }
+.aw-top { display: flex; align-items: center; gap: 12px; font: 700 12px var(--f-body); letter-spacing: .3em; text-transform: uppercase; color: var(--ink-soft); }
+.aw-medal { position: relative; width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 50%; }
+.aw-medal::after { content: ""; position: absolute; inset: 6px; border: 1.5px solid var(--ink); border-radius: 50%; }
+.aw-prize { font: clamp(30px, 3.8vw, 48px)/1.08 var(--f-display); text-wrap: balance; }
+.aw-rule { width: 64%; border-top: 1.5px dashed var(--line); }
+.aw-lbl { font: 700 11px var(--f-body); letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+.aw-names { font: clamp(20px, 2.3vw, 27px)/1.2 var(--f-display); color: var(--ink); text-wrap: balance; }
+
+.brief { margin-top: 16px; max-width: 70ch; border: 1.5px solid var(--ink); padding: 16px 18px; display: grid; gap: 10px; font-size: 15px; line-height: 1.55; }
+.brief-h { font: 700 12px var(--f-body); letter-spacing: .26em; text-transform: uppercase; justify-self: start; background: var(--ink); color: var(--bg); padding: 3px 9px; }
+.brief ol { margin: 0; padding-left: 1.3em; display: grid; gap: 2px; }
+.brief-why { font-style: italic; color: var(--ink-soft); }
+
+
+/* "Stay unaware": an ink stamp lands on the only way forward */
+.go-wrap { position: relative; display: inline-block; }
+.repeat-stamp { position: absolute; left: 50%; top: 50%; z-index: 3; width: max-content; max-width: 86vw; text-align: center; cursor: not-allowed;
+  font: clamp(20px, 2.8vw, 30px)/1.15 var(--f-display); color: #E0302A; transform: translate(-50%, -50%); }
+.repeat-stamp.on { animation: redin .35s ease both; }
+.repeat-stamp.off { animation: inkfade .9s ease forwards; }
+@keyframes redin { from { opacity: 0; transform: translate(-50%, -50%) scale(1.06); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes inkfade { to { opacity: 0; } }
+.s2.thud .s2-inner { animation: thud .32s ease .3s; }
+@keyframes thud { 25% { transform: translate(-3px, 2px); } 50% { transform: translate(3px, -2px); } 75% { transform: translate(-2px, 1px); } }
+
+.s2::before { content: ""; position: absolute; inset: 0; background: rgba(8,8,10,.3); opacity: 0; transition: opacity .5s ease; pointer-events: none; }
+.s2-inner { position: relative; z-index: 1; }
+.s2 .s2-inner > *, .s2 .s2-stay, .s2 .s2-go { transition: opacity .5s ease; }
+.s2.stamped::before { opacity: 1; }
+.s2.stamped .s2-inner > :not(.s2-choice) { opacity: .5; }
+.s2.stamped .s2-stay { opacity: .4; }
+.s2.stamped .s2-go { opacity: 0; pointer-events: none; }
+
+/* ownership mark: small, fixed, never in the way */
+.ownermark { position: fixed; z-index: 250; pointer-events: none; user-select: none;
+  right: calc(12px + env(safe-area-inset-right, 0px)); bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  font: 700 10px/1 var(--f-body); letter-spacing: .18em; text-transform: uppercase; color: #8A8A86; opacity: .6; }
+.foot-copy { font-size: 11px; color: var(--ink-soft); opacity: .8; max-width: 60ch; }
+@media (max-width: 560px) {
+  .s2-choice { flex-direction: column; align-items: stretch; justify-self: stretch; width: 100%; }
+  .go-wrap { display: block; }
+  .go-wrap .s2-go { width: 100%; justify-content: center; }
+  .s2 .btn.s2-stay { justify-content: center; }
+  .repeat-stamp { max-width: calc(100vw - 40px); width: calc(100vw - 40px); font-size: 20px; }
+}
+@media (max-width: 520px) { .rankchip { display: none; } .nav button { padding: 6px 11px; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="stampy-soft"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="1.4"/></filter><filter id="stampy"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter></svg>
+<div class="bgphoto" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="topbar">
+    <button class="brand" data-go="intro" aria-label="Parity, back to the start"><span class="ptlogo sm" aria-hidden="true"><span class="el"><i>15</i><b>P</b><s>Phosphorus</s></span><span class="el"><i>18</i><b>Ar</b><s>Argon</s></span><span class="el"><i>53</i><b>I</b><s>Iodine</s></span><span class="el"><i>22</i><b>Ti</b><s>Titanium</s></span><span class="el"><i>39</i><b>Y</b><s>Yttrium</s></span></span></button>
+    <nav class="nav" aria-label="Main">
+      <button data-go="home" id="nav-cases">Case files</button>
+      <button data-go="passport" id="nav-passport">Passport</button>
+      <span class="rankchip" id="rankchip"></span>
+    </nav>
+  </header>
+
+  <!-- HOME -->
+  <!-- INTRO -->
+  <section class="view intro" id="v-intro" hidden>
+    <div class="slide s1">
+      <div class="s1-inner">
+        <img class="justice" src="justice.jpg" alt="Lady Justice holding up her scales">
+        <div class="s1-text">
+          <h1 class="pword">PARITY</h1>
+          <div class="defn">
+            <p class="pron">par·i·ty <span>/ˈpar-ə-tē/</span> <i>noun</i></p>
+            <ol>
+              <li>Being equal, especially in status, pay and credit.</li>
+              <li><i>Physics.</i> The idea that nature works the same way in a mirror. Chien-Shiung Wu proved it doesn't. Two men got the Nobel Prize for it.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <button class="cue" id="cue" aria-label="Scroll to why this matters">scroll <span aria-hidden="true">↓</span></button>
+    </div>
+    <div class="slide s2" id="why">
+      <div class="s2-inner">
+        <h2>Why this matters</h2>
+        <div class="s2-body">
+          <p>When asked to name an inventor or a scientist, most people cite Einstein, Newton or Tesla. When asked to name a woman in science, few can look beyond Marie Curie. Our own survey confirmed this pattern.</p>
+          <p>The imbalance is not confined to history. A 2022 study published in <i>Nature</i> found that women working on research teams remain significantly less likely than their male colleagues to be credited as authors on work to which they contributed.</p>
+          <p>A disparity that goes unrecognised cannot be corrected. Parity documents seventeen women whose contributions were appropriated, erased or attributed to others.</p>
+          <p class="s2-q">History has already decided once to look away. Now it is your decision.</p>
+        </div>
+        <div class="s2-choice">
+          <button class="btn s2-stay" id="stay">Stay unaware</button>
+          <span class="go-wrap">
+            <button class="btn s2-go" data-go="home">I want to know →</button>
+            <span class="repeat-stamp" id="repstamp" role="status" hidden>Congratulations.<br>You've just repeated history.</span>
+          </span>
+        </div>
+        <p class="s2-cite">Ross, M. B. et al. (2022). Women are credited less in science than men. <i>Nature</i>, 608, 135–145.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-home">
+    <div class="homehead">
+      <h1 aria-label="Parity"><span class="ptlogo big" aria-hidden="true"><span class="el"><i>15</i><b>P</b><s>Phosphorus</s></span><span class="el"><i>18</i><b>Ar</b><s>Argon</s></span><span class="el"><i>53</i><b>I</b><s>Iodine</s></span><span class="el"><i>22</i><b>Ti</b><s>Titanium</s></span><span class="el"><i>39</i><b>Y</b><s>Yttrium</s></span></span></h1>
+      <p class="lede" id="homelede">17 discoveries. 17 women whose names got left off. Pull a file from the drawer.</p>
+    </div>
+    <div class="cabinet" id="cabinet" role="group" aria-label="Case drawer"></div>
+    <div class="ledger">
+      <p class="spread">Parity is an archive of credit that was taken, erased or handed to someone else. Open a file, check the evidence, put her name back.</p>
+      <table class="tbl" aria-label="Your progress">
+        <tr><th>Cases</th><td>17</td></tr>
+        <tr><th>Closed</th><td id="home-closed">0</td></tr>
+        <tr><th>Rank</th><td id="home-rank">Rookie</td></tr>
+      </table>
+    </div>
+    <div class="loop">
+      <p class="eyebrow">How a case works</p>
+      <ol>
+        <li><b>See the myth</b>The name your history book gave you.</li>
+        <li><b>Open the file</b>Pull three exhibits from the folder.</li>
+        <li><b>Credit Court</b>Name who really did the work.</li>
+        <li><b>The reveal</b>Scratch off the famous name.</li>
+        <li><b>Get rewarded</b>Stamp, rank up, unlock the next file.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- WHY PARITY -->
+  <section class="view" id="v-why" hidden>
+    <div class="ded">
+      <figure class="ded-photo">
+        <img src="wu.jpg" alt="Chien-Shiung Wu seated at the controls of laboratory equipment, with papers and a stopwatch on the desk in front of her">
+        <figcaption>Chien-Shiung Wu at work in the laboratory.</figcaption>
+      </figure>
+      <div class="ded-text">
+        <p class="eyebrow">A dedication</p>
+        <h2>Why Parity</h2>
+        <p class="ded-sub">In honour of Chien-Shiung Wu (1912–1997)</p>
+        <p>In 1956, Chien-Shiung Wu designed and led the experiment that overturned the law of parity: the long-held belief that the laws of nature make no distinction between left and right. In 1957 the Nobel Prize in Physics was awarded to Tsung-Dao Lee and Chen-Ning Yang, the two theorists who had proposed the question. Wu, whose experiment provided the answer, was not included.</p>
+        <p>Parity also means equality: the state in which recognition is given to those who have earned it, without regard to gender. That is the principle this archive is built on.</p>
+        <p>We named this project Parity for both of these meanings, and in honour of the woman remembered as the First Lady of Physics.</p>
+        <button class="btn" id="whygo">Continue to the archive →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE -->
+  <section class="view" id="v-case" hidden>
+    <div class="casebar">
+      <button class="back" data-go="home">← Back to the drawer</button>
+      <div class="steps" id="steps"></div>
+    </div>
+    <div class="stage" id="stage"></div>
+  </section>
+
+  <!-- PASSPORT -->
+  <section class="view" id="v-passport" hidden>
+    <div class="drawerhead"><div><p class="eyebrow">Archive passport</p><h2>Your progress</h2></div></div>
+    <div class="passport">
+      <div>
+        <div class="idcard" id="idcard"></div>
+        <div class="badges" id="badges"></div>
+        <div class="reset" id="resetbox"><button class="linkbtn" id="reset">Clear my progress</button></div>
+      </div>
+      <div class="stamps paper on-paper"><h3>Stamps</h3><p style="color:var(--on-paper-soft);font-size:14px">One for every case you close.</p><div class="stampgrid" id="stampgrid"></div></div>
+      <div class="words paper on-paper" id="words"></div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="ptlogo foot" aria-label="Parity"><span class="el"><i>15</i><b>P</b></span><span class="el"><i>18</i><b>Ar</b></span><span class="el"><i>53</i><b>I</b></span><span class="el"><i>22</i><b>Ti</b></span><span class="el"><i>39</i><b>Y</b></span></span>
+    <span class="foot-links"><button class="linkbtn" data-go="why-parity">Why Parity?</button> · Prototype. Progress saves in this browser.</span>
+    <span class="foot-copy">© 2026 Parity. Original concept, writing and design. All rights reserved. Not for reproduction or AI training.</span>
+  </footer>
+</div>
+
+<div class="ownermark" aria-hidden="true">© Parity 2026 · Prototype</div>
+<div id="termcard" class="termcard" role="dialog" aria-live="polite" hidden></div>
+
+<script>
+(() => {
+// Each case: a cold open (code name, no real name), the myth, three exhibits,
+// a Credit Court lineup of real people (hers is anonymous), the reveal and sources.
+const CASES = [
+  { id: "001", name: "Chien-Shiung Wu", initials: "CW", subj: "C.S.W.", code: "The Mirror Breaker", born: "b. 1912, Liuhe, China", region: "Asia", field: "Physics", year: "1956",
+    open: "Washington, D.C., winter 1956. A 44-year-old physicist from New York keeps travelling down to a lab where atoms are frozen almost to absolute zero. She's testing a rule every physicist trusts: that nature can't tell left from right.",
+    claim: "Nature can tell left from right. The 'law of parity' is broken.",
+    label: "Credited to", famous: "Tsung-Dao Lee & Chen-Ning Yang", prize: "Nobel Prize in Physics, 1957", medal: true,
+    question: "Who actually ran the test?",
+    evidence: [
+      ["Lab log", "Winter 1956. Radioactive cobalt-60 is chilled to near absolute zero. In this beta decay, the electrons fly out more in one direction than the other."],
+      ["Paper trail", "The 1956 theory paper only asked the question. It needed someone to do the experiment. Most physicists bet it would fail."],
+      ["Journal", "Physical Review, February 1957. The proof's first author is an experimental physicist from Columbia University."]],
+    people: [
+      { name: "Tsung-Dao Lee", role: "Theorist, Columbia University", detail: "Co-wrote the 1956 paper asking whether parity really holds.", why: "He asked the question. He didn't run the experiment." },
+      { her: true, role: "Experimental physicist, Columbia University", detail: "The country's go-to expert on beta decay. Known for experiments nobody else can pull off." },
+      { name: "Chen-Ning Yang", role: "Theorist, Institute for Advanced Study, Princeton", detail: "Co-wrote the 1956 paper with Lee.", why: "He worked on paper, at Princeton. The experiment happened elsewhere." }],
+    story: ["Wu designed and ran the experiment that broke a law physicists had trusted for decades. It took months of brutal work at temperatures colder than outer space.", "Lee and Yang won the Nobel Prize the very same year. Wu's name wasn't on it."],
+    taken: "A share of the 1957 Nobel Prize in Physics", later: "Nominated for the Nobel 23 times and never won. In 1978 she became the first winner of the Wolf Prize in Physics.",
+    teaser: "It all started here.",
+    sources: [["Physics World", "https://physicsworld.com/a/overlooked-for-the-nobel-chien-shiung-wu/"], ["Physics World (nominations)", "https://physicsworld.com/a/twenty-three-nominations-yet-no-nobel-prize-how-chien-shiung-wu-missed-out/"]] },
+
+  { id: "002", name: "Rosalind Franklin", initials: "RF", subj: "R.F.", code: "The Photographer", born: "b. 1920, London, England", region: "UK & Ireland", field: "Chemistry", year: "1952",
+    open: "London, 1952. A 31-year-old chemist spends days firing X-rays at strands of DNA thinner than a hair. The picture she gets will change biology. She won't be the one who gets to say so.",
+    claim: "The double helix: the twisted-ladder shape of DNA.",
+    label: "Credited to", famous: "James Watson & Francis Crick", prize: "Nobel Prize in Physiology or Medicine, 1962", medal: true,
+    question: "Whose X-ray photo showed the helix?",
+    evidence: [
+      ["Photograph", "King's College London, May 1952. X-ray image no. 51. Taken by an expert in X-ray photography, with her PhD student Raymond Gosling. A clear X shape: the sign of a helix."],
+      ["Testimony", "January 1953. A colleague from the same lab shows Photo 51 to Watson, without asking the person who took it."],
+      ["Notebook", "Her notes already put DNA's backbone on the outside of the molecule. Watson and Crick's early model had it inside."]],
+    people: [
+      { name: "Maurice Wilkins", role: "Physicist, King's College London", detail: "Deputy head of the lab. Friendly with the Cambridge team.", why: "He's the colleague who showed the photo to Watson. It wasn't his photo." },
+      { name: "James Watson", role: "Biologist, Cavendish Laboratory, Cambridge", detail: "Builds models out of metal plates and wire. Doesn't run X-ray cameras.", why: "He saw the photo. He didn't take it." },
+      { her: true, role: "Chemist, King's College London, 1951–53", detail: "Expert in X-ray crystallography. Supervises PhD student Raymond Gosling." }],
+    story: ["Franklin's X-ray work was the clearest proof that DNA is a helix. Watson and Crick built their famous model after seeing her photo without her knowing.", "She died of cancer in 1958, aged 37. The Nobel came four years later, and it's never given to people who have died."],
+    taken: "Credit for the key evidence behind the double helix", later: "Watson later admitted her data was crucial. Her later work on viruses is still cited today.",
+    teaser: "Another photograph. Another Nobel that skipped her.",
+    sources: [["Smithsonian Magazine", "https://www.smithsonianmag.com/smart-news/what-were-still-learning-about-rosalind-franklins-unheralded-brilliance-180982058/"], ["HISTORY.com", null]] },
+
+  { id: "003", name: "Lise Meitner", initials: "LM", subj: "L.M.", code: "The Walker in the Snow", born: "b. 1878, Vienna, Austria", region: "Europe", field: "Physics", year: "1938",
+    open: "Sweden, Christmas 1938. A 60-year-old physicist has just escaped Nazi Germany with two small suitcases. A letter arrives from her old lab in Berlin. The results inside make no sense to anyone.",
+    claim: "Nuclear fission: splitting the atom.",
+    label: "Credited to", famous: "Otto Hahn", prize: "Nobel Prize in Chemistry, 1944", medal: true,
+    question: "Who explained what was splitting?",
+    evidence: [
+      ["Letter", "December 1938. A chemist in Berlin writes to Sweden: there's barium where the uranium should be. He can't explain it."],
+      ["Calculation", "On a walk in the snow with her nephew Otto Frisch, a physicist works it out: the uranium nucleus has split in two."],
+      ["Travel papers", "July 1938. The head of the institute's physics department flees Germany. Her research stays behind in Berlin."]],
+    people: [
+      { name: "Otto Hahn", role: "Chemist, Kaiser Wilhelm Institute, Berlin", detail: "Runs the uranium experiments. Wrote the letter to Sweden.", why: "He found the barium but couldn't explain it. He asked her." },
+      { name: "Fritz Strassmann", role: "Chemist, Kaiser Wilhelm Institute, Berlin", detail: "Hahn's assistant on the uranium work.", why: "He did the chemistry in Berlin. The explanation came from Sweden." },
+      { her: true, role: "Physicist, now a refugee in Sweden", detail: "Ran the institute's physics department for years before fleeing in 1938." }],
+    story: ["Meitner worked with Otto Hahn for 30 years. After she fled, she and her nephew explained the physics of fission and gave it its name.", "Hahn published the chemistry without her and won the Nobel Prize alone. Later reviews of the Nobel archives called it a mistake."],
+    taken: "The 1944 Nobel Prize in Chemistry", later: "Element 109, meitnerium, is named after her.",
+    teaser: "Another physicist. Another prize she didn't get.",
+    sources: [["Physics World", "https://physicsworld.com/a/overlooked-for-the-nobel-lise-meitner/"], ["Science History Institute", "https://www.sciencehistory.org/education/scientific-biographies/otto-hahn-lise-meitner-and-fritz-strassmann/"]] },
+
+  { id: "004", name: "Elizabeth Magie", initials: "EM", subj: "E.M.", code: "The Landlord", born: "b. 1866, Macomb, Illinois", region: "North America", field: "Game design", year: "1904",
+    open: "Washington, D.C., 1903. A 37-year-old writer and stenographer is drawing a board game. She wants it to make people angry about greedy landlords.",
+    claim: "Monopoly: buy property, charge rent, bankrupt your friends.",
+    label: "Credited to", famous: "Charles Darrow", prize: "Sold to Parker Brothers, 1935", medal: false,
+    question: "Who invented the game that became Monopoly?",
+    evidence: [
+      ["Patent", "U.S. Patent 748,626, January 1904: 'The Landlord's Game'. A square board, properties, rent, and a corner that says 'Go to Jail'."],
+      ["Intent", "The game is a protest. The inventor follows Henry George, an economist who said landlords get rich just by owning land."],
+      ["Contract", "1935. Parker Brothers buys the original patent for $500. No royalties."]],
+    people: [
+      { name: "Charles Darrow", role: "Out-of-work salesman, Philadelphia, 1930s", detail: "Sells a version of the game to Parker Brothers in 1935.", why: "He sold it. He didn't invent it. He learned it from friends." },
+      { her: true, role: "Writer, stenographer and stage actor", detail: "A follower of Henry George. Files a patent in 1903." },
+      { name: "Charles Todd", role: "Friend of Darrow's, Philadelphia", detail: "Learned a homemade property game from friends and taught it to Darrow.", why: "He passed the game along. It was already 30 years old." }],
+    story: ["Magie invented The Landlord's Game to show how unfair land ownership could be. People made homemade copies and passed them around for decades.", "Charles Darrow sold one of those copies as Monopoly and became a millionaire. She got $500."],
+    taken: "Credit, and royalties, for one of the best-selling board games ever", later: "Her story came back in the 1970s, when a court fight over the game dug up her patent.",
+    teaser: "From a board game to the stars.",
+    sources: [["National Women's History Museum", "https://www.womenshistory.org/articles/monopolys-lost-female-inventor"], ["HISTORY.com", null]] },
+
+  { id: "005", name: "Jocelyn Bell Burnell", initials: "JB", subj: "J.B.", code: "The Listener", born: "b. 1943, Lurgan, Northern Ireland", region: "UK & Ireland", field: "Astrophysics", year: "1967",
+    open: "Cambridge, England, 1967. A 24-year-old PhD student checks hundreds of feet of radio-telescope paper by hand. Somewhere in the squiggles is a signal no one expected.",
+    claim: "Pulsars: dead stars that spin so steadily they tick like clocks.",
+    label: "Credited to", famous: "Antony Hewish & Martin Ryle", prize: "Nobel Prize in Physics, 1974", medal: true,
+    question: "Who spotted the signal?",
+    evidence: [
+      ["Chart paper", "1967. A tiny patch of 'scruff' in hundreds of feet of chart. The person reading it by hand marks it and refuses to ignore it."],
+      ["Build log", "The telescope covers about 4.5 acres of wire and posts. A PhD student helped hammer it together."],
+      ["Lab joke", "Pulses every 1.337 seconds. The team half-jokingly calls it LGM-1: Little Green Men."]],
+    people: [
+      { name: "Antony Hewish", role: "Radio astronomer, Cambridge", detail: "Designed the telescope. Supervises the project.", why: "He ran the project. He didn't spot the signal." },
+      { name: "Martin Ryle", role: "Head of radio astronomy, Cambridge", detail: "Famous for a new way of combining telescopes.", why: "His Nobel was for different work. He didn't find pulsars." },
+      { her: true, role: "PhD student, Cambridge, 1965–68", detail: "Helped build the telescope. Reads its charts by hand every day." }],
+    story: ["As a grad student, Bell Burnell noticed the odd signal, wouldn't let it go, and found more of them.", "The Nobel Prize went to her supervisor and to Martin Ryle. She wasn't even named."],
+    taken: "A place on the 1974 Nobel Prize in Physics", later: "In 2018 she won a $3 million Breakthrough Prize and gave all of it to fund physics PhDs for under-represented students.",
+    teaser: "A movie star with a secret.",
+    sources: [["NPR", "https://www.npr.org/2018/09/06/645257118/in-1974-they-gave-the-nobel-to-her-supervisor-now-shes-won-a-3-million-prize"], ["Physics World", "https://physicsworld.com/a/overlooked-for-the-nobel-jocelyn-bell-burnell/"]] },
+
+  { id: "006", name: "Hedy Lamarr", initials: "HL", subj: "H.K.M.", code: "The Silent Signal", born: "b. 1914, Vienna, Austria", region: "Europe", field: "Engineering", year: "1942",
+    open: "Hollywood, 1941. A 26-year-old film star finishes shooting and goes home to her drafting table. The war in Europe is getting worse. She has an idea for a torpedo nobody can jam.",
+    claim: "Frequency hopping: a radio signal that keeps jumping channels so it can't be jammed. Bluetooth still uses the idea.",
+    label: "Remembered as", famous: "Just a movie star", prize: "'The most beautiful woman in the world'", medal: false,
+    question: "Who is the inventor behind the name 'H. K. Markey'?",
+    evidence: [
+      ["Patent", "U.S. Patent 2,292,387, August 1942: 'Secret Communication System'. One inventor is listed as Hedy Kiesler Markey, a married name."],
+      ["Co-signer", "A composer suggests syncing the hops like player-piano rolls: 88 channels, like 88 piano keys."],
+      ["Memo", "The U.S. Navy shelves the patent. The inventor is told she'd help more by selling war bonds."]],
+    people: [
+      { name: "George Antheil", role: "Composer, Hollywood", detail: "Famous for music written for a dozen or more player pianos at once.", why: "He's the co-inventor who brought the piano rolls. The patent's other name is hers." },
+      { her: true, role: "Film actor under contract at MGM", detail: "Invents in spare time between films. Grew up in Vienna." },
+      { name: "Fritz Mandl", role: "Arms manufacturer, Austria", detail: "Arms dealer. Hosted dinners in Vienna where weapons were discussed.", why: "He sold weapons. He never invented this." }],
+    story: ["Between films, Lamarr designed a way to steer torpedoes by radio without the signal being jammed, and patented it with George Antheil.", "The Navy ignored it. For decades she was famous only for her face, while ideas like hers went on to shape wireless tech."],
+    taken: "Recognition as an inventor for over 50 years", later: "1997: EFF Pioneer Award. 2014: National Inventors Hall of Fame.",
+    teaser: "Back to biology, and a very small beetle.",
+    sources: [["Smithsonian Magazine", "https://www.smithsonianmag.com/smithsonian-institution/thank-world-war-ii-era-film-star-your-wi-fi-180971584/"], ["National Inventors Hall of Fame", "https://www.invent.org/inductees/hedy-lamarr"]] },
+
+  { id: "007", name: "Nettie Stevens", initials: "NS", subj: "N.S.", code: "The Mealworm", born: "b. 1861, Cavendish, Vermont", region: "North America", field: "Genetics", year: "1905",
+    open: "Pennsylvania, 1905. A scientist in her forties bends over a microscope, counting chromosomes in beetle larvae. She came to science late. She's about to answer one of the oldest questions there is: what makes a baby male or female?",
+    claim: "Chromosomes decide sex: XX or XY.",
+    label: "Credited to", famous: "Edmund B. Wilson", prize: "The textbook version", medal: false,
+    question: "Who found the chromosome that decides sex?",
+    evidence: [
+      ["Slide", "1905. Mealworm cells. Males carry one small chromosome that females don't."],
+      ["Report", "Carnegie Institution, 1905: 'Studies in Spermatogenesis'. Written by a researcher at Bryn Mawr College, alone."],
+      ["Textbooks", "For decades they credit a more famous man who reached a vaguer version of the idea the same year."]],
+    people: [
+      { name: "Edmund B. Wilson", role: "Professor of zoology, Columbia University", detail: "Studies insect chromosomes. Also publishes in 1905.", why: "He got there around the same time, but less clearly. The textbooks picked him." },
+      { her: true, role: "Researcher, Bryn Mawr College", detail: "Earned a PhD there in 1903. Studies mealworm beetles." },
+      { name: "Thomas Hunt Morgan", role: "Biologist, Bryn Mawr then Columbia", detail: "Will win a Nobel Prize in 1933 for chromosome work.", why: "He was her colleague. At first he didn't even believe chromosomes decided sex." }],
+    story: ["Stevens showed that one specific chromosome, now called Y, decides sex. It was one of the first times anyone linked a trait to a chromosome.", "Edmund Wilson was more famous, so the textbooks gave him the credit."],
+    taken: "Credit for XY sex determination", later: "She died in 1912, just nine years after finishing her PhD.",
+    teaser: "A cure, cooked up in Hawaii.",
+    sources: [["National Women's History Museum", "https://www.womenshistory.org/education-resources/biographies/nettie-stevens"], ["Genes to Genomes", "https://genestogenomes.org/nettie-stevens-sex-chromosomes-and-sexism/"]] },
+
+  { id: "008", name: "Alice Ball", initials: "AB", subj: "A.B.", code: "The Island Cure", born: "b. 1892, Seattle, Washington", region: "North America", field: "Chemistry", year: "1915",
+    open: "Honolulu, 1915. A 23-year-old chemist works with a thick oil from a tree seed. People with leprosy are being sent away to live in isolation. She thinks she can help them.",
+    claim: "The first treatment that worked for leprosy, decades before antibiotics.",
+    label: "Credited to", famous: "Arthur L. Dean", prize: "Published as 'the Dean Method'", medal: false,
+    question: "Who made the oil injectable?",
+    evidence: [
+      ["Lab note", "College of Hawaii, 1915. Chaulmoogra oil is too thick to inject and too harsh to swallow. A young chemist finds a fix."],
+      ["Death certificate", "December 1916. The chemist dies at 24, before publishing anything."],
+      ["Publication", "The college president keeps making the treatment and publishes it under his own name."]],
+    people: [
+      { name: "Arthur L. Dean", role: "Chemistry professor, then president of the College of Hawaii", detail: "Took over the work in 1916.", why: "He's the college president who renamed it after himself." },
+      { name: "Harry T. Hollmann", role: "Doctor, Kalihi Hospital, Honolulu", detail: "Treats leprosy patients. Asked a chemist for help.", why: "He asked for the cure. Years later, he's the one who named her." },
+      { her: true, role: "Chemist, College of Hawaii", detail: "The first African American to earn a master's degree there." }],
+    story: ["Ball turned chaulmoogra oil into something doctors could inject. It was the best leprosy treatment for decades.", "After she died, Arthur Dean called it the Dean Method."],
+    taken: "Her name on the method, for 85 years", later: "In 2000 the University of Hawai'i honoured her and the state declared an Alice Ball Day. It's the Ball Method again.",
+    teaser: "Counting stars for cents an hour.",
+    sources: [["National Geographic", "https://www.nationalgeographic.com/science/article/alice-ball-leprosy-hansens-disease-hawaii-womens-history-science"], ["Univ. of Hawai'i News", "https://www.hawaii.edu/news/2022/02/28/alice-ball-day-february-28/"]] },
+
+  { id: "009", name: "Henrietta Leavitt", initials: "HL", subj: "H.S.L.", code: "The Star Counter", born: "b. 1868, Lancaster, Massachusetts", region: "North America", field: "Astronomy", year: "1912",
+    open: "Harvard, 1908. A woman in her late thirties sits at a desk of glass photo plates, measuring how thousands of stars flicker. She earns about 30 cents an hour.",
+    claim: "Measuring how far away galaxies are, and how big the universe is.",
+    label: "Credited to", famous: "Edwin Hubble", prize: "The space telescope bears his name", medal: false,
+    question: "Who found the ruler Hubble measured with?",
+    evidence: [
+      ["Payroll", "Harvard College Observatory. Women 'computers' study glass photo plates for about 30 cents an hour."],
+      ["Catalogue", "1908: 1,777 flickering stars catalogued in the Magellanic Clouds, by one staff member."],
+      ["Circular", "1912: the brighter a Cepheid star, the slower it pulses. The report is signed by the observatory director."]],
+    people: [
+      { name: "Edwin Hubble", role: "Astronomer, Mount Wilson Observatory, California, 1920s", detail: "Has the biggest telescope in the world.", why: "He used the ruler. He didn't find it." },
+      { her: true, role: "Staff 'computer', Harvard College Observatory", detail: "Studies flickering stars on glass plates." },
+      { name: "Edward Pickering", role: "Director, Harvard College Observatory", detail: "Hires staff to analyse photo plates.", why: "He signed the report. The finding was his employee's." }],
+    story: ["Leavitt discovered that how fast certain stars pulse tells you how bright they really are. That made them cosmic measuring tapes.", "Hubble used her rule to prove other galaxies exist. His name became the famous one."],
+    taken: "Credit for the first cosmic measuring tape", later: "In 1925 a Swedish mathematician tried to nominate her for a Nobel Prize. She had died four years earlier.",
+    teaser: "A paper bag, and a court case.",
+    sources: [["Britannica", "https://www.britannica.com/biography/Henrietta-Swan-Leavitt"], ["Astronomy.com", null]] },
+
+  { id: "010", name: "Margaret Knight", initials: "MK", subj: "M.K.", code: "The Paper Bag", born: "b. 1838, York, Maine", region: "North America", field: "Invention", year: "1871",
+    open: "Springfield, Massachusetts, 1867. A factory worker in her late twenties watches bags being folded slowly by hand. She starts sketching a machine to do it.",
+    claim: "The flat-bottomed paper bag: the one at every grocery checkout.",
+    label: "Claimed first by", famous: "Charles Annan", prize: "Filed before hers", medal: false,
+    question: "Who designed the bag-folding machine?",
+    evidence: [
+      ["Workshop", "Columbia Paper Bag Company, 1867. A worker designs a machine that cuts, folds and glues square-bottomed bags."],
+      ["Patent office", "A man sees the iron model at a machine shop and files a patent for it first."],
+      ["Court papers", "1871. His argument: a woman couldn't understand machines. Her diaries, drawings and models say otherwise."]],
+    people: [
+      { name: "Charles Annan", role: "Businessman", detail: "Files a patent for a square-bottomed bag machine.", why: "He copied the design and argued a woman couldn't have made it. He lost." },
+      { name: "Francis Wolle", role: "Inventor, Pennsylvania", detail: "Patented a paper-bag machine back in 1852. It made flat, envelope-style bags.", why: "His machine came earlier, and couldn't make a flat bottom." },
+      { her: true, role: "Worker, Columbia Paper Bag Company", detail: "Has been inventing since childhood, after working in a cotton mill." }],
+    story: ["Knight built the machine that made flat-bottomed paper bags possible. Charles Annan copied her design and tried to patent it.", "In court, he said no woman could have invented it. She proved him wrong with her own notes and got her patent."],
+    taken: "Very nearly, her patent", later: "2006: inducted into the National Inventors Hall of Fame.",
+    teaser: "A square of velvet changes genetics.",
+    sources: [["Smithsonian Magazine", "https://www.smithsonianmag.com/smithsonian-institution/meet-female-inventor-behind-mass-market-paper-bags-180968469/"], ["National Inventors Hall of Fame", "https://www.invent.org/inductees/margaret-e-knight"]] },
+
+  { id: "011", name: "Esther Lederberg", initials: "EL", subj: "E.M.L.", code: "The Velvet Square", born: "b. 1922, The Bronx, New York", region: "North America", field: "Microbiology", year: "1952",
+    open: "University of Wisconsin, 1951. A microbiologist in her late twenties spots a virus hiding inside the bacteria she studies. Next she'll invent a way to copy a whole dish of bacteria using a square of velvet.",
+    claim: "How bacteria pass on their genes: groundwork for modern genetics.",
+    label: "Credited to", famous: "Joshua Lederberg", prize: "Nobel Prize in Physiology or Medicine, 1958", medal: true,
+    question: "Who discovered lambda phage and invented replica plating?",
+    evidence: [
+      ["Technique", "1952. A square of velvet presses bacterial colonies from one dish onto many, keeping every colony in place."],
+      ["Culture dish", "1951. A virus is found hiding inside E. coli bacteria: lambda phage. Found by the lab's hands-on microbiologist."],
+      ["Ceremony", "1958. Her husband shares the Nobel Prize for related work. She is not included."]],
+    people: [
+      { name: "Joshua Lederberg", role: "Geneticist, University of Wisconsin", detail: "Shares the 1958 Nobel Prize.", why: "He's her husband. The Nobel went to him alone." },
+      { her: true, role: "Microbiologist, University of Wisconsin", detail: "Works at the bench with bacteria and the viruses that infect them." },
+      { name: "Norton Zinder", role: "PhD student, University of Wisconsin", detail: "Discovers a different way bacteria swap genes, in 1952.", why: "He made his own discovery. Not this one." }],
+    story: ["Esther Lederberg discovered lambda phage and helped invent replica plating. Labs still use the velvet trick today.", "Her husband Joshua shared the 1958 Nobel Prize. She was left out."],
+    taken: "Recognition alongside the 1958 Nobel", later: "Lambda phage became one of the most used tools in molecular biology.",
+    teaser: "A genius who taught under a man's name.",
+    sources: [["ASM.org", null], ["National Women's History Museum", "https://www.womenshistory.org/education-resources/biographies/esther-lederberg"]] },
+
+  { id: "012", name: "Emmy Noether", initials: "EN", subj: "E.N.", code: "The Ghost Lecturer", born: "b. 1882, Erlangen, Germany", region: "Europe", field: "Mathematics", year: "1918",
+    open: "Göttingen, Germany, 1916. A 34-year-old mathematician teaches classes that are listed under a man's name. She isn't paid. She's about to prove something physicists will use forever.",
+    claim: "Every conservation law in physics, like energy or momentum, comes from a symmetry.",
+    label: "Lectures listed under", famous: "David Hilbert", prize: "University of Göttingen course list", medal: false,
+    question: "Whose theorem links symmetry and conservation?",
+    evidence: [
+      ["Course list", "Göttingen, 1916: 'Mathematical Physics Seminar: Prof. Hilbert, with the help of Dr E. Noether'. The helper is unpaid."],
+      ["Faculty minutes", "Professors object to a woman teaching. Hilbert replies that a university isn't a bathhouse."],
+      ["Paper", "1918. A proof solves a puzzle about energy in Einstein's new theory of gravity. Physicists still just call it by her name."]],
+    people: [
+      { name: "David Hilbert", role: "Professor of mathematics, Göttingen", detail: "The seminar is listed under this professor's name.", why: "He fought for her and lent her his name. The theorem is hers." },
+      { name: "Albert Einstein", role: "Physicist, Berlin", detail: "Author of a new theory of gravity with an unsolved puzzle about energy.", why: "He had the puzzle. She solved it. He said so himself." },
+      { her: true, role: "Mathematician from Erlangen", detail: "Teaches at Göttingen from 1915 with no pay and no title." }],
+    story: ["Noether's theorem is one of the foundations of modern physics. She also reshaped a whole branch of algebra.", "Göttingen let her teach under a man's name for years and never made her a full professor, even with Einstein backing her. In 1933 the Nazis fired her."],
+    taken: "A paid professorship, and her own name on her classes", later: "Einstein called her the most significant creative mathematical genius since women's higher education began.",
+    teaser: "A shower curtain and a sewing machine.",
+    sources: [["Britannica", "https://www.britannica.com/biography/Emmy-Noether"], ["Institute for Advanced Study", "https://www.ias.edu/ideas/2017/emmy-noether%E2%80%99s-paradise"]] },
+
+  { id: "013", name: "Marion Donovan", initials: "MD", subj: "M.D.", code: "The Shower Curtain", born: "b. 1917, Fort Wayne, Indiana", region: "North America", field: "Invention", year: "1946",
+    open: "Westport, Connecticut, 1946. A parent in her late twenties is sick of changing wet sheets. She pulls down the shower curtain and sits at her sewing machine.",
+    claim: "The disposable diaper, now a multi-billion-dollar industry.",
+    label: "Credited to", famous: "Procter & Gamble (Pampers)", prize: "Launched 1961", medal: false,
+    question: "Who invented the leak-proof diaper cover?",
+    evidence: [
+      ["Workbench", "1946. A shower curtain, a sewing machine, and a cover that keeps a baby's bed dry. She calls it the Boater."],
+      ["Patent", "1951. Patents granted. She sells the rights to the Boater for $1 million."],
+      ["Rejections", "For about a decade, paper companies turn down her all-paper disposable diaper."]],
+    people: [
+      { name: "Victor Mills", role: "Chemical engineer, Procter & Gamble", detail: "Leads a disposable diaper project from the late 1950s.", why: "He built Pampers years later. The idea was already hers." },
+      { name: "Paper company executives", role: "Major U.S. paper companies, early 1950s", detail: "Shown a design for an all-paper diaper.", why: "They're the ones who turned her down." },
+      { her: true, role: "Parent and inventor, Westport, Connecticut", detail: "Sews prototypes at home. Later studies architecture at Yale." }],
+    story: ["Donovan made the first waterproof diaper cover on her sewing machine, then designed a disposable paper diaper.", "Companies called it unnecessary. Years later Procter & Gamble built a fortune on the same idea."],
+    taken: "Credit for the idea behind disposable diapers", later: "She earned an architecture degree from Yale in 1958 and held 20 patents.",
+    teaser: "Forty-seven chromosomes, and a stolen slide.",
+    sources: [["Smithsonian Magazine", "https://www.smithsonianmag.com/innovation/meet-marion-donovan-mother-who-invented-precursor-disposable-diaper-180972118/"], ["America Comes Alive", "https://americacomesalive.com/marion-obrien-donovan-1917-1998-inventor-of-the-disposable-diaper/"]] },
+
+  { id: "014", name: "Marthe Gautier", initials: "MG", subj: "M.G.", code: "Forty-Seven", born: "b. 1925, Montenils, France", region: "Europe", field: "Genetics", year: "1959",
+    open: "Paris, 1958. A doctor in her early thirties builds a cell lab almost from scratch, partly with her own money. She counts the chromosomes in cells from children with Down syndrome. There's one too many.",
+    claim: "Down syndrome is caused by an extra copy of chromosome 21.",
+    label: "Credited to", famous: "Jérôme Lejeune", prize: "Kennedy Prize, 1962", medal: true,
+    question: "Who first counted the extra chromosome?",
+    evidence: [
+      ["Lab inventory", "Paris, 1958. One of France's first human cell-culture labs. Set up by a doctor who learned the technique in the U.S."],
+      ["Slides", "The cells show 47 chromosomes, not 46. The lab has no camera good enough to photograph them. A colleague offers to."],
+      ["Journal", "January 1959. The paper comes out with her name second, and misspelled."]],
+    people: [
+      { name: "Jérôme Lejeune", role: "Researcher, Raymond Turpin's team, Paris", detail: "Has access to a microscope camera.", why: "He took her slides to be photographed and presented the discovery as his." },
+      { her: true, role: "Doctor, Raymond Turpin's team, Paris", detail: "Trained in cell culture in the United States. Runs the lab's cultures." },
+      { name: "Raymond Turpin", role: "Head of the department, Paris", detail: "Last author on the 1959 paper.", why: "He ran the department. He didn't count the chromosomes." }],
+    story: ["Gautier grew the cells and spotted the extra chromosome. Jérôme Lejeune took her slides to be photographed and presented the discovery as basically his own.", "He got the awards. She moved on to children's heart medicine and stayed quiet for 50 years."],
+    taken: "First authorship of the discovery", later: "In 2009, at 83, she published her own account of what happened.",
+    teaser: "An electric hiss nobody could explain.",
+    sources: [["Science (AAAS)", "https://www.science.org/content/article/after-more-50-years-dispute-over-down-syndrome-discovery"], ["Scientific American", "https://www.scientificamerican.com/article/this-researcher-discovered-the-cause-of-down-syndrome-but-for-50-years-got/"]] },
+
+  { id: "015", name: "Hertha Ayrton", initials: "HA", subj: "H.A.", code: "The Hissing Arc", born: "b. 1854, Portsea, England", region: "UK & Ireland", field: "Physics", year: "1901",
+    open: "London, 1890s. A physicist in her forties watches an electric arc lamp hiss and flicker. These lamps light streets and searchlights everywhere. Nobody knows why they misbehave.",
+    claim: "Why electric arc lamps hiss and flicker. Fixing it made searchlights reliable.",
+    label: "Read aloud by", famous: "John Perry", prize: "Royal Society, 1901", medal: false,
+    question: "Who solved the hissing arc?",
+    evidence: [
+      ["Lab notes", "London, 1890s. The hissing starts when air reaches the hot carbon tip of the lamp."],
+      ["Meeting minutes", "Royal Society, 1901. The paper is read out by a man. The person who wrote it isn't allowed to."],
+      ["Legal opinion", "1902. Nominated to join the Royal Society. Lawyers say a married woman can't be elected."]],
+    people: [
+      { name: "John Perry", role: "Professor of engineering, London", detail: "Reads a paper aloud at the Royal Society in 1901.", why: "He read it out because she wasn't allowed to. It wasn't his work." },
+      { name: "William Ayrton", role: "Physicist and electrical engineer, London", detail: "Also studied the electric arc.", why: "He's her husband. She took the arc research further and solved it." },
+      { her: true, role: "Physicist and mathematician, London", detail: "Studied mathematics at Cambridge. Has run experiments on the electric arc for years." }],
+    story: ["Ayrton figured out what made the electric arc hiss and became the expert on it. In 1899 she was the first woman elected to the Institution of Electrical Engineers.", "The Royal Society wouldn't let her read her own paper and refused to make her a Fellow because she was married."],
+    taken: "Fellowship of the Royal Society, and the right to present her own work", later: "In 1906 the Royal Society gave her the Hughes Medal anyway.",
+    teaser: "A grad student finds a lock in the brain.",
+    sources: [["Royal Society blog", "https://blogs.royalsociety.org/history-of-science/2012/03/08/almost-a-fellow/"], ["MacTutor", "https://mathshistory.st-andrews.ac.uk/Biographies/Ayrton/"]] },
+
+  { id: "016", name: "Candace Pert", initials: "CP", subj: "C.P.", code: "The Lock", born: "b. 1946, New York City", region: "North America", field: "Neuroscience", year: "1973",
+    open: "Baltimore, 1972. A 26-year-old grad student who once needed morphine after a riding accident is hunting for the spot in the brain that morphine locks onto.",
+    claim: "The brain's opiate receptor: the lock that painkillers, and the body's own ones, fit into.",
+    label: "Credited to", famous: "Solomon Snyder", prize: "Lasker Award, 1978", medal: true,
+    question: "Who found the opiate receptor?",
+    evidence: [
+      ["Bench notes", "Johns Hopkins, 1972. A radioactive drug sticks to brain tissue. There's a docking site."],
+      ["Journal", "Science, March 1973: 'Opiate receptor: demonstration in nervous tissue'. First author: a graduate student."],
+      ["Letter", "1978. The Lasker Award goes to her supervisor and two other men. She writes a public protest."]],
+    people: [
+      { name: "Solomon Snyder", role: "Professor of pharmacology, Johns Hopkins", detail: "Runs the lab. Second author on the 1973 paper.", why: "He's her supervisor. The award went to him." },
+      { her: true, role: "Graduate student, pharmacology, Johns Hopkins", detail: "Designed the experiment. First author on the 1973 paper." },
+      { name: "Hans Kosterlitz", role: "Pharmacologist, University of Aberdeen, Scotland", detail: "Searching for the body's own painkillers.", why: "He found the body's own painkillers. Not the receptor." }],
+    story: ["As a grad student, Pert designed the experiment that proved the opiate receptor is real. It opened up the science of how the brain handles pain and pleasure.", "Her supervisor shared the 1978 Lasker Award. She was left out, and said so publicly."],
+    taken: "A share of the 1978 Lasker Award", later: "She went on to run her own lab at the U.S. National Institutes of Health.",
+    teaser: "A girl, a cliff, and the first sea monster.",
+    sources: [["Science (AAAS)", "https://www.science.org/content/article/complex-social-process"], ["Wikipedia", "https://en.wikipedia.org/wiki/Candace_Pert"]] },
+
+  { id: "017", name: "Mary Anning", initials: "MA", subj: "M.A.", code: "The Cliff Digger", born: "b. 1799, Lyme Regis, England", region: "UK & Ireland", field: "Palaeontology", year: "1812",
+    open: "Lyme Regis, England, 1811. A 12-year-old girl and her brother dig at crumbling seaside cliffs. Her family sells fossils to tourists to pay the bills. Something huge is in the rock.",
+    claim: "The first ichthyosaur skeleton: proof that whole species had died out.",
+    label: "Published by", famous: "The men who bought her fossils", prize: "Geological Society papers, 1810s–1820s", medal: false,
+    question: "Who dug it out of the cliffs?",
+    evidence: [
+      ["Dig log", "Lyme Regis, 1811–12. With her brother Joseph, a girl of about 12 uncovers the first ichthyosaur skeleton to be recognized."],
+      ["Minutes", "December 1823: a nearly complete plesiosaur. The paper read at the Geological Society doesn't say who found it."],
+      ["Membership list", "The Geological Society won't admit women as members until 1919."]],
+    people: [
+      { name: "William Conybeare", role: "Clergyman and geologist", detail: "Presents a paper on the plesiosaur in 1824.", why: "He wrote about her fossil without naming her." },
+      { her: true, role: "Fossil collector and dealer, Lyme Regis, Dorset", detail: "Sells finds from the family shop by the sea." },
+      { name: "William Buckland", role: "Geologist, Oxford University", detail: "Names the first dinosaur, Megalosaurus, in 1824.", why: "He studied and used her finds. He didn't dig them out." }],
+    story: ["Anning was a working-class fossil hunter whose finds changed how people saw Earth's history. Rich collectors bought her fossils and wrote the papers.", "They rarely named her, and she wasn't allowed to join the society that discussed her work."],
+    taken: "Her name on her own discoveries", later: "In 2010 the Royal Society named her one of the ten British women who most influenced science.",
+    teaser: "The last file in the drawer.",
+    sources: [["Natural History Museum", "https://www.nhm.ac.uk/discover/mary-anning-unsung-hero.html"], ["AWIS", "https://awis.org/historical-women/mary-anning/"]] }
+];
+// Narrative layer. beats: the tap-through scene. told: how the myth is usually told.
+// ex: exhibit text told as found documents. how: the science, as a sequence of events.
+// [[term]] or [[shown text|glossary key]] marks a word with an explainer card.
+const NARR = {
+  "001": {
+    beats: [
+      "Washington, D.C. December 1956.",
+      "In a lab at the National Bureau of Standards, a small team is trying to make atoms hold still. They're chilling radioactive cobalt to a hair above [[absolute zero]], colder than anywhere in outer space.",
+      "The woman leading it is 44, a physicist from Columbia. She has cancelled a long-planned trip abroad to be here.",
+      "Her question sounds almost silly: does nature care about left and right? Every physicist alive says no. Wolfgang Pauli, one of the most famous, will soon write that he refuses to believe God is a \"weak left-hander\", and that he'd bet a fortune on it.",
+      "She's about to take that bet."],
+    told: "Physicists used to believe nature has no favourite side: a [[mirror-image|parity]] universe would work exactly like ours. In 1957 that rule fell, and it shook physics. The Nobel Prize went to two theorists.",
+    ex: [
+      "Late December 1956. The [[radiation counters|radiation counter]] keep clicking more on one side. The team flips the magnet. Now the other side wins. They check it again, and again.",
+      "Summer 1956. Two theorists publish a question, not an answer: has anyone actually tested parity in [[beta decay]]? Nobody has. It looks like months of hard, thankless work.",
+      "February 1957. The proof appears in Physical Review. First author: the experimental physicist from Columbia who led the team."],
+    how: "She froze [[cobalt-60]] until its atoms nearly stopped jiggling, then used a strong magnet to point them all the same way, like compass needles. If nature didn't care about left and right, the electrons they shot out would spray evenly from both ends. They didn't. They poured out of one end. The mirror was broken." },
+  "002": {
+    beats: [
+      "London. May 1952.",
+      "At King's College, a 31-year-old chemist aims a fine beam of X-rays at a single fibre of [[DNA]], thinner than a hair.",
+      "She's one of the best in Britain at reading X-ray patterns. A colleague down the corridor treats her like his assistant.",
+      "Up in Cambridge, two men are racing to build a model of DNA. They have ideas. They don't have data.",
+      "She's about to take the picture they need."],
+    told: "DNA's shape, the [[double helix]], explains how life copies itself. It's the most famous discovery in biology. The Nobel went to Watson, Crick and Wilkins.",
+    ex: [
+      "Image no. 51. Taken with her PhD student Raymond Gosling after a long [[X-ray exposure]]. In the middle: a sharp, dark X. To anyone who can read it, that X shouts \"helix\".",
+      "January 1953. A colleague from her lab pulls out Photo 51 and shows it to Watson. Nobody asked her. Watson later wrote that his mouth fell open.",
+      "Her notes already put DNA's backbone on the outside of the molecule. The Cambridge pair's first model had it inside, and she'd told them it was wrong."],
+    how: "She turned DNA into a pattern of light. X-rays bounce off the atoms inside a fibre and land on film as spots, a bit like the shadow a spiral staircase would throw. Reading Photo 51's X, she could measure how wide the helix was and how tightly it twisted. Watson and Crick used her numbers to build their model." },
+  "003": {
+    beats: [
+      "Berlin. July 1938.",
+      "A 59-year-old physicist packs two small suitcases and boards a train for the Dutch border. She's Jewish, and Nazi Germany is closing its doors.",
+      "She leaves behind 30 years of work, and her lab partner, the chemist Otto Hahn.",
+      "Months later, in Sweden, a letter arrives from him. His experiment has produced something impossible, and he can't explain it.",
+      "She can."],
+    told: "Splitting the atom, [[nuclear fission]], gave the world nuclear power and the atomic bomb. The Nobel Prize went to one chemist: Otto Hahn.",
+    ex: [
+      "December 1938. Hahn writes: when he fires [[neutrons|neutron]] at uranium, barium comes out. Barium is about half the size of uranium. Atoms aren't supposed to do that.",
+      "Christmas 1938. A walk in the snow in Sweden with her nephew, the physicist Otto Frisch. Sitting on a log, she scribbles the answer: the uranium [[nucleus]] has split in two.",
+      "February 1939. Meitner and Frisch publish the explanation in Nature, with a name borrowed from biology: fission."],
+    how: "She pictured the uranium nucleus as a wobbly drop of liquid. Hit it with a neutron and it stretches, pinches in the middle and snaps into two smaller drops. Using Einstein's [[E = mc²]], she worked out that the tiny bit of mass that went missing turned into a huge burst of energy." },
+  "004": {
+    beats: [
+      "Washington, D.C. 1903.",
+      "A stenographer in her late thirties types other people's words all day. At night she writes her own: poems and short stories. And now, a board game.",
+      "It's about money. Who earns it, and who just collects it.",
+      "She wants players to feel, round after round, how unfair it gets when one person owns everything.",
+      "She'll be paid $500 for it."],
+    told: "Monopoly is one of the best-selling board games ever. The story on the box: a broke salesman invented it during the [[Great Depression]] and got rich.",
+    ex: [
+      "January 1904. [[Patent]] 748,626: \"The Landlord's Game\". A square track, properties for rent, railroads, and a corner marked \"Go to Jail\".",
+      "Her rules come in two versions. In one, everyone gains when wealth is created. In the other, you win by crushing everyone else. Players love the second one.",
+      "1935. Parker Brothers quietly buys her patent for $500. No [[royalties]]. The box says nothing about her."],
+    how: "Magie followed an economist named [[Henry George]], who argued that landowners grow rich simply because land gets more valuable, not because they work. She built that idea into a loop: buy property, charge rent, watch everyone else go broke. The game was meant to teach a lesson. It was so much fun that people kept playing the cruel version." },
+  "005": {
+    beats: [
+      "Cambridge, England. 1967.",
+      "A 24-year-old PhD student walks out to a field of wooden posts and wire, about four and a half acres of it. She helped hammer it together. It's a [[radio telescope]].",
+      "Every day it spits out long rolls of chart paper, and she reads every squiggle by hand.",
+      "One squiggle doesn't look like anything she's seen before. She calls it \"scruff\".",
+      "Most people would ignore it. She doesn't."],
+    told: "[[Pulsars|pulsar]] are dead stars that tick like perfect clocks. Finding them opened a whole new field of astronomy. The Nobel went to two Cambridge astronomers.",
+    ex: [
+      "1967. About a quarter-inch of scruff in hundreds of feet of chart. She marks it, then checks the same patch of sky again and again.",
+      "The signal pulses every 1.337 seconds, perfectly regular. Too regular for nature? The team half-jokingly labels it LGM-1: Little Green Men.",
+      "Just before Christmas 1967, working late, she finds a second one in a different part of the sky. Aliens wouldn't be signalling from two places at once."],
+    how: "A pulsar is what's left when a giant star collapses: something heavier than the Sun, crushed to the size of a city and spinning fast. It sweeps a beam of [[radio waves]] around like a lighthouse. Every time the beam crosses Earth, the telescope ticks. She noticed the tick, proved it wasn't interference, and found more." },
+  "006": {
+    beats: [
+      "Hollywood. 1941.",
+      "A 26-year-old film star leaves the set and goes home to her drafting table. Magazines call her the most beautiful woman in the world. Nobody asks what she thinks.",
+      "Years earlier in Vienna, she sat through dinners with arms dealers, listening to talk of weapons.",
+      "Now the war is getting worse. Torpedoes steered by radio can be [[jammed|jamming]] with a single blast of noise.",
+      "She has an idea to stop that."],
+    told: "[[Frequency hopping]] stops radio signals from being jammed, and Bluetooth still uses it. History remembers one of its inventors only for her face.",
+    ex: [
+      "August 1942. [[Patent]] 2,292,387: \"Secret Communication System\". One inventor signs as Hedy Kiesler Markey, a married name nobody in Hollywood would recognise.",
+      "Her friend, the composer George Antheil, knows how to keep player pianos in sync. They borrow the trick: 88 channels, like 88 piano keys.",
+      "The U.S. Navy shelves it. She's told she'd help the war more by selling war bonds. She sells millions of dollars' worth."],
+    how: "A radio-guided torpedo listens on one channel, so an enemy only has to blast noise on that channel to jam it. Her idea: make the ship and the torpedo jump between channels together, in a secret, synchronised pattern. The enemy never knows where to jam. Bluetooth hops between channels in a similar way today." },
+  "007": {
+    beats: [
+      "Bryn Mawr College, Pennsylvania. 1903.",
+      "A scientist in her forties is finally doing what she always wanted. She spent years teaching school to save up for college.",
+      "Now she's peering at the cells of mealworms, a beetle's [[larvae]], counting tiny threads called [[chromosomes|chromosome]].",
+      "For thousands of years, people have argued about what makes a baby a boy or a girl. Food? Temperature? Luck?",
+      "She's about to find out."],
+    told: "XX or XY: the chromosomes that decide sex are basic biology now. For decades, textbooks credited a famous Columbia professor.",
+    ex: [
+      "1905. Under the microscope: female mealworm cells have 20 large chromosomes. Male cells have 19 large ones and one tiny one.",
+      "1905. \"Studies in Spermatogenesis\", published by the Carnegie Institution. One author, from Bryn Mawr. Careful, clear and correct.",
+      "The same year, a more famous scientist publishes a vaguer version of the idea. Guess whose name sticks."],
+    how: "She compared the chromosomes of male and female mealworms side by side. Females always had a matching pair. Males had one big one and one small one. The small one, now called the [[Y chromosome]], was the switch that makes a male. It was one of the first times anyone traced a trait to a specific chromosome." },
+  "008": {
+    beats: [
+      "Honolulu, Hawai'i. 1915.",
+      "A 23-year-old chemist works in a lab at the College of Hawai'i. She's just become the first woman to earn a master's degree there.",
+      "Outside, people with [[leprosy]] are being taken from their families and sent to live in isolation on the island of Moloka'i.",
+      "The only treatment is an oil from the seeds of the chaulmoogra tree. It's thick, sticky and barely works.",
+      "A doctor asks her for help. She doesn't have much time."],
+    told: "The first leprosy treatment that really worked gave thousands of patients hope. It was named the Dean Method, after a college president.",
+    ex: [
+      "The oil is too thick to inject and too harsh to swallow. A young chemist finds a way to change its chemistry so the body can take it in.",
+      "December 1916. The chemist dies at 24, before she can publish.",
+      "The college president takes over her work, keeps producing it, and publishes it under his own name."],
+    how: "Injected, chaulmoogra oil wouldn't mix with the body. It sat under the skin in painful lumps. Ball pulled out the oil's active ingredients and turned them into [[ethyl esters]], a thinner form the body could absorb. For the first time, patients could get a dose that worked." },
+  "009": {
+    beats: [
+      "Harvard College Observatory. 1904.",
+      "A woman in her thirties sits at a desk stacked with glass plates, each one a photograph of the night sky. She's a \"computer\", one of the women paid by the hour to do the measuring.",
+      "She earns about 30 cents an hour. Women like her aren't allowed to work the big telescopes.",
+      "Her job: find stars that flicker, called [[variable stars|variable star]]. She finds more than anyone ever has.",
+      "And then she notices a pattern."],
+    told: "Measuring how far away stars are showed how huge the universe is. Edwin Hubble got the fame, and a space telescope named after him.",
+    ex: [
+      "Payroll. Harvard College Observatory. Women computers study glass photographic plates for about 30 cents an hour.",
+      "1908. 1,777 variable stars spotted in the [[Magellanic Clouds]], by one woman with a magnifier.",
+      "1912. The brighter a [[Cepheid]] star, the slower it pulses. The report is signed by the observatory director."],
+    how: "All her Cepheids sat in the same faraway cloud, so they were all about the same distance from Earth. That meant a brighter star really was brighter, not just closer. The slower one pulsed, the brighter it truly was. So time a Cepheid's pulse and you know its real brightness; compare that with how dim it looks and you know how far away it is. Hubble timed Cepheids in Andromeda." },
+  "010": {
+    beats: [
+      "Springfield, Massachusetts. 1867.",
+      "A factory worker in her late twenties watches women fold paper bags by hand. The bags are flat, like envelopes. They tip over and spill.",
+      "She's been inventing since she was 12, when she saw a loom injure a worker at her cotton mill and designed a safety device.",
+      "Now she's sketching a machine that can cut, fold and glue a bag with a flat, square bottom.",
+      "Someone else is about to see it."],
+    told: "The flat-bottomed paper bag is still at every checkout. The first patent for the machine was filed by a man named Charles Annan.",
+    ex: [
+      "Columbia Paper Bag Company. A worker builds a wooden [[prototype]] of a machine that cuts, folds and glues square-bottomed bags.",
+      "She has an iron model made at a machine shop. A man visiting the shop sees it, and files a patent for it first.",
+      "1871. In court, his argument is that a woman couldn't possibly understand machines. Her diaries, drawings and models say otherwise."],
+    how: "Her machine took in a roll of paper, then cut it, creased it, folded the bottom into a flat square and glued it, all in one run. Until then, square-bottomed bags had to be folded by hand. Her wooden model became an iron one, and that's the one Annan saw." },
+  "011": {
+    beats: [
+      "University of Wisconsin. 1950.",
+      "A microbiologist in her late twenties grows bacteria in glass dishes, thousands of tiny colonies at a time.",
+      "She's married to another scientist in the same lab. People tend to assume he's the brains.",
+      "In one batch of [[E. coli]], something strange happens. Some of the bacteria burst open for no reason.",
+      "Something is hiding inside them."],
+    told: "Bacteria swapping genes is a foundation of modern genetics. The 1958 Nobel Prize went to Joshua Lederberg.",
+    ex: [
+      "1952. A square of velvet presses bacterial colonies from one dish onto many, keeping every colony in place.",
+      "1951. A virus is found hiding inside E. coli: [[lambda phage]]. Found by the lab's hands-on microbiologist.",
+      "1958. Her husband shares the Nobel Prize for related work. She is not included."],
+    how: "First she found lambda phage, a virus that hides quietly inside a bacterium's DNA, then wakes up and bursts it open. Then she found a way to copy a whole dish at once: press a square of velvet onto the colonies, then onto fresh dishes. Every colony lands in the same spot, so you can see exactly which ones survive a test. It's called [[replica plating]]." },
+  "012": {
+    beats: [
+      "Göttingen, Germany. 1915.",
+      "Two of the world's greatest mathematicians invite a 33-year-old woman to their university. They need her help with a puzzle in Einstein's new theory of [[general relativity]].",
+      "The other professors object. A woman, teaching men?",
+      "So she teaches anyway: unpaid, with her classes listed under a man's name.",
+      "Within three years, she'll solve the puzzle."],
+    told: "Why can energy never be created or destroyed? One theorem explains it, and physicists use it everywhere. The lectures where it grew were listed under a famous professor: David Hilbert.",
+    ex: [
+      "Course list, Göttingen, 1916: \"Mathematical Physics Seminar: Prof. Hilbert, with the help of Dr E. Noether\". The helper is unpaid.",
+      "Faculty minutes. Professors object to a woman teaching. Hilbert replies that a university isn't a bathhouse.",
+      "1918. A proof settles a puzzle about energy in Einstein's theory of gravity. Physicists still just call it by her name."],
+    how: "She proved that every [[symmetry]] in nature comes with something that can never be created or destroyed. If the laws of physics are the same today as tomorrow, energy is conserved. If they're the same here as over there, momentum is conserved. It's called [[Noether's theorem]], and it sits underneath almost all of modern physics." },
+  "013": {
+    beats: [
+      "Westport, Connecticut. 1946.",
+      "A parent in her late twenties is changing her baby's wet sheets. Again. Cloth diapers leak through everything.",
+      "She pulls down the shower curtain and carries it to her sewing machine.",
+      "A few weeks later she has a waterproof cover that closes with snaps, not safety pins. She calls it the Boater.",
+      "Then she has a bigger idea: what if the whole diaper were paper, and you could just throw it away?"],
+    told: "Disposable diapers changed life for millions of parents. Procter & Gamble's Pampers got the credit.",
+    ex: [
+      "1946. A shower curtain, a sewing machine and a cover that keeps a baby's bed dry. She calls it the Boater.",
+      "1951. [[Patents|patent]] granted. She sells the rights to the Boater for $1 million.",
+      "For about a decade, every major paper company turns down her all-paper disposable diaper."],
+    how: "The Boater was a waterproof pocket cut from a shower curtain, with snaps instead of safety pins, wrapped around a cloth diaper to stop leaks. Her next [[prototype]] was made entirely of special absorbent paper that drew wetness away from a baby's skin. The paper companies said nobody needed it. Years later, disposable diapers took off on the same idea." },
+  "014": {
+    beats: [
+      "Paris. 1957.",
+      "A young doctor comes home from a year at Harvard, where she learned to grow human cells in a dish.",
+      "Her new lab barely has any equipment. She buys some with her own money and gets to work.",
+      "The question: do children with Down syndrome have a different number of [[chromosomes|chromosome]]?",
+      "She starts counting."],
+    told: "Finding that Down syndrome comes from an extra chromosome changed medicine. Jérôme Lejeune became famous for it.",
+    ex: [
+      "Paris, 1958. One of France's first [[cell culture]] labs for human cells. Set up by a doctor who learned the technique in the U.S.",
+      "The cells show 47 chromosomes, not 46. The lab has no camera good enough to photograph them. A colleague offers to take her slides.",
+      "January 1959. The paper comes out with her name second, and spelled wrong."],
+    how: "She grew cells in glass dishes, then caught them in the middle of dividing, when chromosomes are easiest to see. Then she counted, cell after cell. Human cells have 46 chromosomes. These had 47: an extra copy of a small one, number 21. Doctors call it [[trisomy 21]]." },
+  "015": {
+    beats: [
+      "London. The 1890s.",
+      "Electric arc lamps light up streets, theatres and warships. They're blinding, and they hiss, sputter and flicker.",
+      "A physicist in her forties sets one up and watches it for hours.",
+      "She's married to the physicist William Ayrton. People assume she's helping him.",
+      "She isn't."],
+    told: "Before light bulbs, arc lamps lit up cities, but they hissed and flickered. The paper explaining why was read to the [[Royal Society]] by a man named John Perry.",
+    ex: [
+      "London, 1890s. Her notes: the hissing starts when air reaches the hot carbon tip of the lamp.",
+      "Royal Society, 1901. The paper is read out by a man. The person who wrote it isn't allowed to.",
+      "1902. Nominated to join the Royal Society. Lawyers say a married woman can't be elected."],
+    how: "An [[electric arc]] is a spark that leaps between two carbon rods and glows white-hot. She found that the hissing began when oxygen from the air reached the hot tip of a rod and made it burn unevenly. Shape the rods right and keep the air out, and the light stays steady and silent." },
+  "016": {
+    beats: [
+      "Baltimore. 1972.",
+      "A 26-year-old grad student at Johns Hopkins remembers lying in a hospital bed two years earlier, after a riding accident, on morphine.",
+      "She wondered: how does a drug know where to go in the brain?",
+      "Her guess: somewhere in the brain there's a [[receptor]], a lock that the drug fits like a key. No one has ever found it.",
+      "She's going to catch it in the act."],
+    told: "Finding the brain's opiate [[receptor]] explained how painkillers work. The Lasker Award, often called America's Nobel, went to the lab's professor and two others.",
+    ex: [
+      "Johns Hopkins, 1972. A [[radioactive tracer]] sticks to brain tissue. There's a docking site.",
+      "Science, March 1973: \"Opiate receptor: demonstration in nervous tissue\". First author: a graduate student.",
+      "1978. The Lasker Award goes to her supervisor and two other men. She writes a public protest."],
+    how: "She made a drug that fits the receptor slightly radioactive, so it could be tracked. She mixed it with brain tissue, washed away everything that didn't stick, and measured what was left. The drug clung on. Something in the brain was built to hold it. The lock was real." },
+  "017": {
+    beats: [
+      "Lyme Regis, England. 1811.",
+      "A 12-year-old girl scrambles along crumbling seaside cliffs after a storm. Storms bring down rock, and rock gives up [[fossils|fossil]].",
+      "Her family is poor. They sell fossils to tourists to pay the bills.",
+      "Her brother has found a strange skull. She keeps digging.",
+      "What she pulls out of that cliff will change how people think about life on Earth."],
+    told: "The first [[ichthyosaur]] skeleton helped prove that animals could go [[extinct]]. The papers about it were written by gentlemen geologists in London.",
+    ex: [
+      "Lyme Regis, 1811–12. With her brother Joseph, a girl of about 12 uncovers the first [[ichthyosaur]] skeleton to be recognised.",
+      "December 1823. A nearly complete plesiosaur. The paper read at the Geological Society doesn't say who found it.",
+      "The Geological Society won't admit women as members until 1919."],
+    how: "The skeleton was an ichthyosaur, a dolphin-shaped reptile that swam the seas around 200 million years ago. Nothing alive looked like it. Finds like hers helped convince scientists that whole species could go [[extinct]], an idea many people found shocking at the time." }
+};
+
+// Drawer hooks: start in the player's life, give the official story, then crack it.
+const HOOKS = {
+  "001": "Physics textbooks say two men proved the universe can tell left from right. They won the 1957 Nobel Prize for it. But neither of them ran the experiment. So who did?",
+  "002": "Every DNA test, from ancestry kits to crime scenes, starts with the double helix. Watson and Crick discovered it. Or did they? The photo that cracked it wasn't theirs.",
+  "003": "Nuclear power and nuclear bombs both start with splitting the atom. Otto Hahn won the Nobel for it, alone. Funny thing: Hahn couldn't explain his own result.",
+  "004": "You've probably rage-quit a game of Monopoly. The legend says a broke salesman invented it during the Great Depression. The patent office has a different name, from 30 years earlier.",
+  "005": "Out in space, dead stars tick like clocks. Two men won a Nobel Prize for finding them. Neither of them spotted the signal.",
+  "006": "Every time your earbuds connect over Bluetooth, they hop between radio channels. The idea behind that was patented in 1942, by someone Hollywood only ever looked at.",
+  "007": "Ask anyone what makes a baby a boy or a girl and they'll say XY chromosomes. Ask who figured that out, and textbooks give you a famous man's name. The mealworms disagree.",
+  "008": "For decades, the best leprosy treatment in the world was called the Dean Method. Arthur Dean didn't invent it. The person who did died before she could say so.",
+  "009": "Every time you hear the universe is billions of light-years wide, you're meant to thank Edwin Hubble. But he measured it with someone else's ruler.",
+  "010": "The paper bag at every checkout was claimed first by a man named Charles Annan. In court, his whole defence was that a woman couldn't have built it.",
+  "011": "Modern genetics was built on clever tricks with bacteria. A Nobel Prize went to this lab in 1958. The trick with the square of velvet wasn't his.",
+  "012": "Why can't energy be created or destroyed? Physics has a proof. The classes that taught it were listed under David Hilbert's name. He didn't write it.",
+  "013": "Billions of disposable diapers get thrown away every year, and Pampers gets the credit. But the first leak-proof cover was cut from a shower curtain.",
+  "014": "For 50 years, one man was celebrated for finding the cause of Down syndrome. The person who actually counted the chromosomes had her name misspelled on her own paper.",
+  "015": "Before light bulbs, cities lit up with arc lamps that hissed and flickered. Someone figured out why. Britain's top science club wouldn't let her read her own paper.",
+  "016": "Every painkiller that works on your brain fits into a tiny lock. The man who won the award for finding it was the supervisor of the person who did.",
+  "017": "The first skeletons of ancient sea monsters were dug out of English cliffs and written up by famous gentlemen geologists. None of them did the digging."
+};
+
+const GLOSS = {
+  "absolute zero": "−273 °C. The point where atoms would stop moving entirely. Nothing in the universe is colder.",
+  "parity": "The idea that nature works the same way in a mirror: a mirror-image experiment would behave exactly like the real one. Wu proved it doesn't always.",
+  "radiation counter": "A device that clicks every time a particle from a radioactive atom hits it. More clicks on one side means more particles went that way.",
+  "beta decay": "When an unstable atom fires out a tiny particle, an electron, to become more stable.",
+  "cobalt-60": "A radioactive version of the metal cobalt. Its atoms decay by firing out electrons.",
+  "dna": "The molecule inside every cell that carries the instructions for building and running a living thing.",
+  "double helix": "DNA's shape: two strands twisted around each other, like a ladder wrung into a spiral.",
+  "x-ray exposure": "Shining X-rays through a sample onto photographic film. The longer the exposure, the clearer the pattern.",
+  "nuclear fission": "When the core of a heavy atom splits into two smaller pieces and releases a huge amount of energy.",
+  "neutron": "A tiny particle with no electric charge, found in the core of atoms. Fire one at uranium and it can split it.",
+  "nucleus": "The tiny, heavy core at the centre of an atom.",
+  "e = mc²": "Einstein's equation: a little mass can turn into an enormous amount of energy.",
+  "great depression": "The worldwide economic crash of the 1930s, when millions of people lost their jobs.",
+  "patent": "A legal document that says an invention is yours, so nobody else can copy or sell it without permission.",
+  "royalties": "Money an inventor or author earns every time their work is sold.",
+  "henry george": "An American economist (1839–1897) who argued that land should be taxed so landlords couldn't grow rich just from owning it.",
+  "radio telescope": "A telescope that 'listens' to radio waves from space instead of looking at light.",
+  "pulsar": "The collapsed core of a dead star, spinning fast and sweeping a beam of radio waves past Earth like a lighthouse.",
+  "radio waves": "Invisible light with long waves. Stars and galaxies give them off, and radio telescopes pick them up.",
+  "jamming": "Blasting noise on a radio channel so the real signal can't get through.",
+  "frequency hopping": "Switching a radio signal between many channels in a secret pattern, so it can't be jammed or overheard.",
+  "larvae": "The young, worm-like stage of an insect, before it becomes an adult.",
+  "chromosome": "A thread-like bundle of DNA inside a cell. Humans have 46, in 23 pairs.",
+  "y chromosome": "The small chromosome that makes an embryo develop as male. Nettie Stevens found it.",
+  "leprosy": "A long-lasting bacterial infection that damages skin and nerves. Today it's curable with antibiotics.",
+  "ethyl esters": "A chemical form of an oil that's thinner and easier for the body to absorb.",
+  "variable star": "A star whose brightness goes up and down over time.",
+  "galaxy": "A huge system of billions of stars. Our galaxy is the Milky Way.",
+  "magellanic clouds": "Two small galaxies near the Milky Way, visible from the Southern Hemisphere.",
+  "cepheid": "A kind of variable star that pulses in a regular rhythm. The slower it pulses, the brighter it really is.",
+  "prototype": "The first working model of an invention, built to test the idea.",
+  "e. coli": "A common bacterium. It lives in our guts and is the workhorse of genetics labs.",
+  "lambda phage": "A virus that infects bacteria. It can hide inside their DNA, then wake up and burst them open.",
+  "replica plating": "Copying a whole dish of bacterial colonies onto new dishes with a pad of velvet, keeping every colony in the same place.",
+  "general relativity": "Einstein's 1915 theory of gravity, which describes gravity as the bending of space and time.",
+  "symmetry": "When something stays the same after you change it, like shifting it in time or moving it to another place.",
+  "noether's theorem": "Every symmetry in nature comes with a quantity that is conserved. Time symmetry gives you conservation of energy.",
+  "disposable": "Made to be used once and thrown away.",
+  "cell culture": "Growing living cells outside the body, in a dish, so they can be studied.",
+  "trisomy 21": "Having three copies of chromosome 21 instead of two. It causes Down syndrome.",
+  "royal society": "Britain's oldest and most famous scientific society, founded in 1660.",
+  "electric arc": "A bright, hot spark that jumps across a gap between two electrodes.",
+  "receptor": "A molecule on a cell that a drug or chemical messenger fits into, like a key into a lock.",
+  "opiates": "Painkilling drugs made from the poppy plant, such as morphine.",
+  "radioactive tracer": "A substance made slightly radioactive so scientists can track where it goes.",
+  "fossil": "The remains or traces of an ancient living thing, preserved in rock.",
+  "ichthyosaur": "A dolphin-shaped marine reptile that lived at the time of the dinosaurs.",
+  "extinct": "No longer existing anywhere. The last of its kind has died."
+};
+
+const REGIONS = [...new Set(CASES.map(c => c.region))];
+const DROPS = 1;
+const RANKS = [["Rookie Investigator", 0], ["Field Researcher", 4], ["Archivist", 9], ["Chief Historian", 17]];
+const STEPS = ["The scene", "The myth", "The file", "Credit Court", "The reveal", "Case closed"];
+
+// ---------- state ----------
+const KEY = "parity.v3";
+let S = { solved: {} };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign({ solved: {} }, JSON.parse(raw)); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+const solvedCount = () => Object.keys(S.solved).length;
+const isSolved = id => !!S.solved[id];
+const isUnlocked = i => i === 0 || isSolved(CASES[i - 1].id) || isSolved(CASES[i].id);
+const rankFor = n => RANKS.reduce((r, x) => (n >= x[1] ? x : r), RANKS[0]);
+const nextRank = n => RANKS.find(x => x[1] > n);
+function badges() {
+  const solved = CASES.filter(c => isSolved(c.id));
+  const regions = new Set(solved.map(c => c.region));
+  const clean = solved.filter(c => S.solved[c.id].firstTry).length;
+  return [
+    { id: "five", name: "Five Files", desc: "Close 5 cases", got: solved.length >= 5 },
+    { id: "globe", name: "Globetrotter", desc: `Close a case in all ${REGIONS.length} regions`, got: regions.size >= REGIONS.length },
+    { id: "sharp", name: "Sharp Eye", desc: "5 clean verdicts on the first try", got: clean >= 5 },
+    { id: "full", name: "Full Archive", desc: "Close every released case", got: solved.length >= CASES.length }
+  ];
+}
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function toast(msg) { const t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2200); }
+
+// ---------- router ----------
+function go(name) { if (location.hash.slice(1) === name) route(); else location.hash = name; }
+function route() {
+  const h = location.hash.slice(1) || "intro";
+  const m = h.match(/^case-(\d{3})$/);
+  let view = m ? "case" : (h === "passport" ? "passport" : h === "home" ? "home" : h === "why-parity" ? "why" : "intro");
+  if (m) { const idx = CASES.findIndex(c => c.id === m[1]); if (idx < 0 || !isUnlocked(idx)) { view = "home"; } else { startCase(idx); drawerSel = idx; } }
+  ["intro", "home", "why", "case", "passport"].forEach(v => $("#v-" + v).hidden = v !== view);
+  if (view === "why" && !S.seenWhy) { S.seenWhy = true; save(); }
+  document.body.classList.toggle("on-intro", view === "intro");
+  if (view !== "intro") clearStay();
+  $("#nav-cases").toggleAttribute("aria-current", false); $("#nav-passport").toggleAttribute("aria-current", false);
+  if (view === "home" || view === "case") $("#nav-cases").setAttribute("aria-current", "page");
+  if (view === "passport") $("#nav-passport").setAttribute("aria-current", "page");
+  if (view === "home") renderHome();
+  if (view === "passport") renderPassport();
+  renderChip();
+  window.scrollTo({ top: 0 });
+}
+document.addEventListener("click", e => { const g = e.target.closest("[data-go]"); if (g) go(g.dataset.go); });
+$("#cue").onclick = () => $("#why").scrollIntoView({ behavior: "smooth" });
+let stayT = null;
+const clearStay = () => { clearTimeout(stayT); stayT = null; const st = $("#repstamp"); st.hidden = true; st.classList.remove("on", "off"); $("#why").classList.remove("stamped"); };
+$("#stay").onclick = () => {
+  const st = $("#repstamp"), slide = $("#why");
+  clearStay();
+  st.hidden = false; void st.offsetWidth; st.classList.add("on");
+  slide.classList.remove("thud"); void slide.offsetWidth; slide.classList.add("thud", "stamped");
+  // the stamp blocks the way forward for 15 seconds, then fades
+  stayT = setTimeout(() => { st.classList.add("off"); slide.classList.remove("stamped"); stayT = setTimeout(clearStay, 900); }, 15000);
+};
+$("#whygo").onclick = () => { drawerSel = null; drawerOpen = true; go("home"); };
+window.addEventListener("hashchange", route);
+
+function renderChip() { $("#rankchip").textContent = rankFor(solvedCount())[0]; }
+
+// ---------- home: the filing drawer ----------
+let drawerSel = null;
+function nextMondays() {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  const add = ((8 - d.getDay()) % 7) || 7; d.setDate(d.getDate() + add);
+  return Array.from({ length: DROPS }, (_, i) => { const x = new Date(d); x.setDate(d.getDate() + 7 * i); return x; });
+}
+const TABPATH = "M0 31 C 16 31 20 3 40 3 L 130 3 C 150 3 154 31 170 31";
+function sheetHTML(c, i) {
+  const fmt = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
+  if (!c) {
+    const d = nextMondays()[i - CASES.length]; const id = String(i + 1).padStart(3, "0");
+    return `<div class="sheet"><div class="sh-top"><div class="sh-title"><span class="inv">CASE ${id}</span><span class="box">WEEKLY DROP</span></div><div class="xbox" aria-hidden="true"></div></div>
+      <p class="sh-claim">A new case lands every Monday. This one opens ${esc(fmt.format(d))}.</p>
+      <table class="sh-tbl"><tr><th>Status</th><td>Not out yet</td></tr><tr><th>Drops</th><td>${esc(fmt.format(d))}</td></tr></table></div>`;
+  }
+  const un = isUnlocked(i), done = isSolved(c.id);
+  const who = done ? `<span class="xout">${esc(c.famous)}</span><span class="her">${esc(c.name)}</span>` : un ? esc(c.famous) : "████████████";
+  return `<div class="sheet">
+    <div class="sh-top">
+      <div class="sh-title"><span class="inv">CASE ${c.id}</span><span class="box">${esc(c.field.toUpperCase())} · ${esc(c.year)}</span></div>
+      <div class="xbox ${done ? "found" : ""}" aria-hidden="true">${done ? esc(c.initials) : ""}</div>
+    </div>
+    <div class="sh-grid">
+      <div><div class="sh-k">Your history book says</div><p class="sh-claim">${un ? esc(HOOKS[c.id] || c.claim) : "This file is sealed."}</p></div>
+      <div class="sh-who"><div class="sh-k">${esc(c.label)}</div><div class="sh-name">${who}</div></div>
+    </div>
+    <table class="sh-tbl"><tr><th>Subject</th><td>${done ? esc(c.name) : un ? esc(c.subj) : "▇▇▇"}</td></tr><tr><th>Code name</th><td>${un ? esc(c.code) + (done ? " · Identified" : "") : "Sealed"}</td></tr><tr><th>Region</th><td>${esc(c.region)}</td></tr><tr><th>Status</th><td>${done ? "Credit restored" : un ? "Open" : "Sealed until case " + CASES[i - 1].id + " is closed"}</td></tr></table>
+    ${un ? `<button class="btn sh-open" data-open="${c.id}">${done ? "Reopen the file" : "Open the file"} →</button>` : ""}
+    ${done ? '<span class="stamp sh-stamp">Credit restored</span>' : ""}
+  </div>`;
+}
+function tabLabel(c, i) {
+  if (!c) return `${String(i + 1).padStart(3, "0")} · NEXT DROP`;
+  if (!isUnlocked(i)) return `${c.id} · ▇▇▇▇`;
+  return `${c.id} · ${(isSolved(c.id) ? c.name.split(" ").slice(-1)[0] : c.field).toUpperCase()}`;
+}
+function renderHome() {
+  const n = solvedCount();
+  $("#home-closed").textContent = n;
+  $("#home-rank").textContent = rankFor(n)[0];
+  const last = CASES.filter(c => isSolved(c.id)).sort((a, b) => S.solved[b.id].date - S.solved[a.id].date)[0];
+  $("#homelede").innerHTML = last ? `Previously in the archive: <b>${esc(last.code)}</b>, identified as ${esc(last.name)}. Case ${last.id}.` : "17 discoveries. 17 women whose names got left off. Pull a file from the drawer.";
+  const total = CASES.length + DROPS;
+  if (drawerSel === null || drawerSel >= total) { const nx = CASES.findIndex((c, i) => isUnlocked(i) && !isSolved(c.id)); drawerSel = nx < 0 ? 0 : nx; }
+  const xs = [4, 60, 32];
+  let html = '<div class="cab-box" aria-hidden="true"></div>';
+  for (let i = 0; i < total; i++) {
+    const c = CASES[i];
+    html += `<div class="cfile" data-i="${i}" style="--tx:${xs[i % 3]}%;--i:${i}">
+      <button class="ctab" data-i="${i}" aria-label="Case ${String(i + 1).padStart(3, "0")}: ${esc(tabLabel(c, i))}"><svg viewBox="0 0 170 34" preserveAspectRatio="none" aria-hidden="true"><path class="fillp" d="${TABPATH} L170 34 L0 34 Z"/><path class="line" d="${TABPATH}"/></svg><span>${esc(tabLabel(c, i))}</span></button>
+      <div class="cbody">${sheetHTML(c, i)}</div>
+    </div>`;
+  }
+  html += `<button class="cab-front" id="cabfront" aria-expanded="false"><svg viewBox="0 0 1000 170" preserveAspectRatio="none" aria-hidden="true"><polygon points="0,0 1000,0 965,170 35,170"/></svg><span class="labelholder">PARITY ARCHIVE<b>CASES 001–${String(total).padStart(3, "0")}</b></span><span class="handle" aria-hidden="true"><i></i><i></i><i></i></span><span class="cab-hint"></span></button>`;
+  const cab = $("#cabinet"); cab.innerHTML = html;
+  cab.onclick = e => {
+    if (e.target.closest("#cabfront")) { setDrawer(!drawerOpen); return; }
+    if (!drawerOpen) return;
+    const o = e.target.closest("[data-open]"); if (o) { go("case-" + o.dataset.open); return; }
+    const f = e.target.closest(".cfile"); if (f && +f.dataset.i !== drawerSel) { drawerSel = +f.dataset.i; layoutDrawer(); }
+  };
+  layoutDrawer();
+}
+let drawerOpen = false;
+function setDrawer(open) {
+  drawerOpen = open;
+  const cab = $("#cabinet"), files = [...cab.querySelectorAll(".cfile")];
+  // stagger the files so they slide out (or back in) one after another
+  files.forEach((f, i) => { f.style.transitionDelay = (open ? i * 18 : (files.length - i) * 10) + "ms"; });
+  layoutDrawer();
+  if (open) { cab.classList.remove("riffle"); void cab.offsetWidth; cab.classList.add("riffle"); }
+  setTimeout(() => files.forEach(f => { f.style.transitionDelay = ""; }), 900);
+}
+function layoutDrawer() {
+  const cab = $("#cabinet"); if (!cab || cab.offsetParent === null) return;
+  const files = [...cab.querySelectorAll(".cfile")];
+  const narrow = cab.clientWidth < 560, TAB = 32, step = narrow ? 22 : 26, frontH = narrow ? 130 : 170;
+  const front = cab.querySelector(".cab-front");
+  cab.classList.toggle("closed", !drawerOpen);
+  front.setAttribute("aria-expanded", String(drawerOpen));
+  front.setAttribute("aria-label", drawerOpen ? "Close the drawer" : "Open the drawer");
+  front.querySelector(".cab-hint").textContent = drawerOpen ? "Push to close" : "Pull to open";
+  if (!drawerOpen) {
+    const frontTop = 30;
+    files.forEach((f, i) => {
+      f.style.top = (frontTop + TAB + 10) + "px"; f.style.height = (frontH - TAB - 20) + "px"; f.style.zIndex = i + 1;
+      f.classList.remove("sel"); f.querySelector(".ctab").tabIndex = -1;
+    });
+    front.style.top = frontTop + "px";
+    cab.style.height = (frontTop + frontH) + "px";
+    return;
+  }
+  const sel = drawerSel;
+  const V = files[sel].querySelector(".sheet").offsetHeight + TAB + 40;
+  const tops = files.map((_, i) => i <= sel ? TAB + 8 + i * step : TAB + 8 + sel * step + V + (i - sel - 1) * step);
+  const frontTop = tops[tops.length - 1] + step + 6;
+  files.forEach((f, i) => {
+    f.style.top = tops[i] + "px"; f.style.height = (frontTop + 40 - tops[i]) + "px"; f.style.zIndex = i + 1;
+    f.classList.toggle("sel", i === sel);
+    const t = f.querySelector(".ctab"); t.setAttribute("aria-pressed", String(i === sel)); t.tabIndex = 0;
+  });
+  front.style.top = frontTop + "px";
+  cab.style.height = (frontTop + frontH) + "px";
+}
+function flipTo(i) {
+  const total = CASES.length + DROPS;
+  drawerSel = Math.max(0, Math.min(total - 1, i)); layoutDrawer();
+  const t = $(`#cabinet .cfile[data-i="${drawerSel}"] .ctab`); if (t) t.focus({ preventScroll: true });
+}
+document.addEventListener("keydown", e => {
+  if (!drawerOpen || $("#v-home").hidden || !e.target.closest || !e.target.closest("#cabinet")) return;
+  if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); flipTo(drawerSel + 1); }
+  if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); flipTo(drawerSel - 1); }
+});
+let _rz; window.addEventListener("resize", () => { clearTimeout(_rz); _rz = setTimeout(layoutDrawer, 120); });
+
+// ---------- term cards ----------
+// [[term]] or [[shown|key]] → a tappable word that opens a plain-English card.
+const TERM_RE = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+const TITLES = { "dna": "DNA", "e. coli": "E. coli", "e = mc²": "E = mc²", "y chromosome": "Y chromosome", "henry george": "Henry George", "noether's theorem": "Noether's theorem", "royal society": "Royal Society", "great depression": "Great Depression", "magellanic clouds": "Magellanic Clouds", "cepheid": "Cepheid", "x-ray exposure": "X-ray exposure" };
+const termTitle = k => TITLES[k] || k.charAt(0).toUpperCase() + k.slice(1);
+const plain = t => String(t).replace(TERM_RE, (_, a) => a);
+const rich = t => esc(t).replace(TERM_RE, (_, a, b) => { const k = (b || a).toLowerCase(); return GLOSS[k] ? `<button type="button" class="term" data-t="${esc(k)}">${a}</button>` : a; });
+function showTerm(btn) {
+  const k = btn.dataset.t, card = $("#termcard");
+  card.innerHTML = `<b>${esc(termTitle(k))}</b><p>${esc(GLOSS[k])}</p><span class="tc-note">Saved to your passport</span>`;
+  card.hidden = false;
+  const r = btn.getBoundingClientRect(), cw = Math.min(300, innerWidth - 32);
+  card.style.width = cw + "px";
+  card.style.left = Math.max(16, Math.min(innerWidth - cw - 16, r.left + r.width / 2 - cw / 2)) + "px";
+  const below = r.bottom + 10, h = card.offsetHeight;
+  card.style.top = (below + h < innerHeight ? below : Math.max(10, r.top - h - 10)) + "px";
+  S.words = S.words || {}; if (!S.words[k]) { S.words[k] = Date.now(); save(); }
+}
+document.addEventListener("click", e => {
+  const t = e.target.closest(".term");
+  if (t) { e.stopPropagation(); showTerm(t); return; }
+  if (!e.target.closest("#termcard")) $("#termcard").hidden = true;
+}, true);
+window.addEventListener("scroll", () => { const c = $("#termcard"); if (c && !c.hidden) c.hidden = true; }, { passive: true });
+
+// ---------- case flow ----------
+const NARRATOR = [
+  "",
+  "Here's what the history books wrote.",
+  "Here's what they left in the drawer.",
+  "Three people were close to this. Only one did the work.",
+  "Scratch it off. She's waited long enough.",
+  "Case closed. One more name back where it belongs."];
+let cur = null; // { idx, c, n, step, beat, pulled:Set, attempts, wrong:Set }
+function startCase(idx) {
+  if (cur && cur.idx === idx) { renderStep(); return; }
+  cur = { idx, c: CASES[idx], n: NARR[CASES[idx].id], step: 0, beat: 0, pulled: new Set(), attempts: 0, wrong: new Set(), gains: null };
+  renderStep();
+}
+function setStep(n) { cur.step = n; renderStep(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+function renderSteps() {
+  $("#steps").innerHTML = STEPS.map((s, i) => `<span class="${i === cur.step ? "on" : i < cur.step ? "done" : ""}">${s}</span>`).join("");
+}
+const portrait = (c, lg) => `<span class="portrait ${lg ? "lg" : ""}" aria-hidden="true"><span>${esc(c.initials || c)}</span></span>`;
+const narrator = i => NARRATOR[i] ? `<p class="narrator">${esc(NARRATOR[i])}</p>` : "";
+const reduceMotion = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// The scene: two pages of beats, typed out quickly. Tap once to turn the page, once more for the code name.
+let typing = null;
+function scenePages(beats) { const cut = Math.ceil(beats.length / 2); return [beats.slice(0, cut), beats.slice(cut)]; }
+function renderScene() {
+  const c = cur.c, pages = scenePages(cur.n.beats), st = $("#stage");
+  const done = cur.beat >= pages.length;
+  const shown = pages.slice(0, Math.min(cur.beat + 1, pages.length));
+  let html = "", idx = 0;
+  shown.forEach((pg, pi) => pg.forEach(b => {
+    const past = pi < cur.beat;
+    html += `<p class="beat ${idx === 0 ? "dateline" : ""} ${past ? "past" : "now"}" data-b="${idx}">${past ? rich(b) : ""}</p>`; idx++;
+  }));
+  st.innerHTML = `<div class="panel scene ${cur.beat ? "cont" : ""}" id="scene">
+    <div class="sc-top"><p class="eyebrow"><b>Case ${c.id}</b> Subject ${esc(c.subj)}</p>${done ? "" : `<button class="linkbtn sc-skip" id="skip">Skip scene</button>`}</div>
+    <div class="beats">${html}</div>
+    ${done ? `<div class="sc-end"><p class="codename"><span>Code name</span>${esc(c.code)}</p><p class="sc-earn">Her name comes later. Earn it.</p><div><button class="btn" id="tomyth">See what your history book says →</button></div></div>`
+           : `<button class="sc-next" id="scnext" aria-label="Continue the story">${cur.beat === 0 ? "Tap to continue" : "Tap to reveal the code name"} <span aria-hidden="true">↵</span></button>`}
+  </div>`;
+  if (done) { $("#tomyth").onclick = () => setStep(1); return; }
+  const els = [...st.querySelectorAll(".beat.now")], page = pages[cur.beat];
+  const finish = () => { clearInterval(typing); typing = null; els.forEach((el, i) => { el.innerHTML = rich(page[i]); el.classList.add("typed"); }); };
+  if (reduceMotion()) finish();
+  else {
+    let p = 0, k = 0; els.forEach(el => { el.textContent = ""; });
+    typing = setInterval(() => {
+      const text = plain(page[p]); k += 3; els[p].textContent = text.slice(0, k);
+      if (k >= text.length) { els[p].innerHTML = rich(page[p]); els[p].classList.add("typed"); p++; k = 0; if (p >= page.length) { clearInterval(typing); typing = null; } }
+    }, 16);
+  }
+  const advance = () => { if (typing) { finish(); return; } cur.beat++; renderScene(); };
+  $("#scnext").onclick = e => { e.stopPropagation(); advance(); };
+  $("#scene").onclick = e => { if (e.target.closest(".term, .linkbtn, #scnext")) return; advance(); };
+  $("#skip").onclick = e => { e.stopPropagation(); clearInterval(typing); typing = null; cur.beat = pages.length; renderScene(); };
+}
+
+function renderStep() {
+  renderSteps();
+  if (typing) { clearInterval(typing); typing = null; }
+  const c = cur.c, n = cur.n, st = $("#stage");
+  if (cur.step === 0) { renderScene(); return; }
+  if (cur.step === 1) {
+    st.innerHTML = `<div class="panel myth">
+      <div>
+        ${narrator(1)}
+        <p class="eyebrow">Case ${c.id} · ${esc(c.field)} · ${esc(c.year)}</p>
+        <p class="told">${rich(n.told)}</p>
+        <div style="margin-top:26px"><button class="btn" id="open">Open the file →</button></div>
+      </div>
+      <div class="plaque paper">
+        <div class="medal ${c.medal ? "" : "none"}"></div>
+        <div class="lbl">${esc(c.label)}</div>
+        <div class="famous">${esc(c.famous)}</div>
+        <div class="prize">${esc(c.prize)}</div>
+      </div>
+    </div>`;
+    $("#open").onclick = () => setStep(2);
+  }
+  if (cur.step === 2) {
+    const exText = i => (n.ex && n.ex[i]) || c.evidence[i][1];
+    st.innerHTML = `<div class="panel">
+      ${narrator(2)}
+      <h2 style="font:clamp(28px,4vw,40px)/1.1 var(--f-display);margin-top:8px">Pull all three exhibits. You'll need them in court.</h2>
+      <div class="desk">${c.evidence.map((ev, i) => `
+        <div class="exhibit ${cur.pulled.has(i) ? "open" : ""}" data-i="${i}" role="button" tabindex="0" aria-label="Exhibit ${"ABC"[i]}${cur.pulled.has(i) ? ": " + esc(plain(exText(i))) : ", face down"}">
+          <span class="inner">
+            <span class="face front"><span class="pull">Exhibit</span><span class="big">${"ABC"[i]}</span><span class="pull">Tap to pull →</span></span>
+            <span class="face backf paper"><span class="kind">Exhibit ${"ABC"[i]} · ${esc(ev[0])}</span><p>${rich(exText(i))}</p></span>
+          </span>
+        </div>`).join("")}</div>
+      <div class="deskfoot"><span class="count" id="count"></span><button class="btn red" id="tocourt" disabled>Take it to Credit Court →</button></div>
+    </div>`;
+    const upd = () => { $("#count").textContent = `${cur.pulled.size} of 3 exhibits pulled`; $("#tocourt").disabled = cur.pulled.size < 3; };
+    const pull = b => { const i = +b.dataset.i; cur.pulled.add(i); b.classList.add("open"); b.setAttribute("aria-label", `Exhibit ${"ABC"[i]}: ${plain(exText(i))}`); upd(); };
+    st.querySelectorAll(".exhibit").forEach(b => {
+      b.onclick = e => { if (e.target.closest(".term")) return; pull(b); };
+      b.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pull(b); } };
+    });
+    $("#tocourt").onclick = () => setStep(3);
+    upd();
+  }
+  if (cur.step === 3) {
+    const exText = i => (n.ex && n.ex[i]) || c.evidence[i][1];
+    st.innerHTML = `<div class="panel court">
+      ${narrator(3)}
+      <h3 style="margin-top:8px">${esc(c.question)}</h3>
+      <div class="brief">
+        <p class="brief-h">Blind hearing</p>
+        <p>Names, faces and genders are sealed. Each profile shows only a person's job, training and what they actually did.</p>
+        <ol><li>Read the exhibits again.</li><li>Compare them with each profile's work.</li><li>Pick the one the evidence points to.</li></ol>
+        <p class="brief-why">Credit should follow the work, not the person. In this court, that's the only thing that counts.</p>
+      </div>
+      <details class="recall"><summary>Look at the exhibits again</summary><ol>${c.evidence.map((ev, i) => `<li><b>${esc(ev[0])}.</b> ${rich(exText(i))}</li>`).join("")}</ol></details>
+      <p class="verdictmsg" id="vmsg" aria-live="polite"></p>
+      <div class="suspects">${c.people.map((p, k) => {
+        const out = cur.wrong.has(k);
+        return `<button class="suspect record paper ${out ? "wrong" : ""}" data-k="${k}" ${out ? "disabled" : ""}>
+          <span class="rec">Profile ${"ABC"[k]}</span>
+          <span class="role">${esc(p.role)}</span>
+          <span class="detail">${esc(p.detail)}</span>
+          ${out ? `<span class="who">This is ${esc(p.name)}.</span><span class="stamp small">Overruled</span>` : ""}
+        </button>`; }).join("")}</div>
+    </div>`;
+    st.querySelectorAll(".suspect").forEach(b => b.onclick = () => {
+      const k = +b.dataset.k, p = c.people[k]; cur.attempts++;
+      if (p.her) {
+        b.insertAdjacentHTML("beforeend", '<span class="who">Identity sealed until the reveal.</span><span class="stamp small" style="color:var(--on-paper);border-color:var(--on-paper)">Sustained</span>');
+        st.querySelectorAll(".suspect").forEach(x => x.disabled = true);
+        $("#vmsg").textContent = cur.attempts === 1 ? "Sustained, first try. You judged the work, not the person. Now find out who it was." : "Sustained. You judged the work, not the person. Now find out who it was.";
+        setTimeout(() => setStep(4), 1400);
+      } else {
+        cur.wrong.add(k); b.classList.add("wrong"); b.disabled = true;
+        b.insertAdjacentHTML("beforeend", `<span class="who">This is ${esc(p.name)}.</span><span class="stamp small">Overruled</span>`);
+        $("#vmsg").textContent = `Overruled. That's ${p.name}. ${p.why}`;
+      }
+    });
+  }
+  if (cur.step === 4) {
+    st.innerHTML = `<div class="panel reveal">
+      <div class="scratchbox paper">
+        <div class="idbar"><span>Code name</span><b>${esc(c.code)}</b><span class="stamp small idstamp" id="idstamp" hidden>Identified</span></div>
+        <div class="lbl">Scratch off the name in your history book</div>
+        <div class="scratch" id="scratch"><div class="under">${esc(c.name)}</div><canvas aria-hidden="true"></canvas></div>
+        <div class="scratchhint"><span>Drag across the card</span><span>·</span><button class="linkbtn" id="revealall">Reveal it all</button></div>
+        <div style="margin-top:20px;display:grid;place-items:center">${portrait(c, true)}</div>
+      </div>
+      <div class="story" id="story" hidden>
+        ${narrator(4)}
+        <p class="eyebrow">Case ${c.id} · ${esc(c.code)} · Identified</p>
+        <h3 style="margin-top:8px">${esc(c.name)}</h3>
+        <p class="born">${esc(c.born)} · ${esc(c.field)}</p>
+        <div class="howbox"><p class="sh-k2">How she did it</p><p>${rich(n.how)}</p></div>
+        <p class="sh-k2">What happened next</p>
+        <div class="body">${c.story.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+        <dl class="facts"><div><dt>What was taken</dt><dd>${esc(c.taken)}</dd></div><div><dt>Where she stands now</dt><dd>${esc(c.later)}</dd></div></dl>
+        <p class="sources"><span>Sources</span>${c.sources.map(([t, u]) => u ? `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>` : `<span>${esc(t)}</span>`).join(" · ")}</p>
+        <div class="actions"><button class="btn red" id="close">Close the case →</button></div>
+      </div>
+    </div>`;
+    const reveal = () => { $("#scratch").classList.add("cleared"); $("#story").hidden = false; $("#idstamp").hidden = false; };
+    setupScratch($("#scratch"), c.famous, reveal);
+    $("#revealall").onclick = reveal;
+    $("#close").onclick = () => { closeCase(); setStep(5); };
+  }
+  if (cur.step === 5) {
+    const g = cur.gains || { rankUp: null, badges: [] };
+    const cnt = solvedCount(), r = rankFor(cnt), nr = nextRank(cnt);
+    const nextIdx = cur.idx + 1 < CASES.length ? cur.idx + 1 : -1;
+    const why = c.id === "001" && !S.seenWhy;
+    const today = new Date(S.solved[c.id].date).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+    st.innerHTML = `<div class="panel reward">
+      <div>
+        ${narrator(5)}
+        <h3 style="margin-top:8px">Her name is back on the file.</h3>
+        <div class="passstamp">Parity archive<b>${c.id}</b>${esc(c.region)}<br>${esc(today)}</div>
+        <div class="gains">
+          <div class="gain"><span class="ic">✓</span><span>Passport stamp added. <b>${cnt}</b> of ${CASES.length} cases closed.</span></div>
+          ${S.solved[c.id].firstTry ? `<div class="gain"><span class="ic">★</span><span><b>Clean verdict.</b> You matched the evidence on the first try.</span></div>` : ""}
+          ${g.rankUp ? `<div class="gain new"><span class="ic">↑</span><span>Promoted to <b>${esc(g.rankUp)}</b>.</span></div>` : `<div class="gain"><span class="ic">→</span><span>${esc(r[0])}${nr ? ` · ${nr[1] - cnt} more to ${esc(nr[0])}` : ""}</span></div>`}
+          ${g.badges.map(b => `<div class="gain new"><span class="ic">◆</span><span>Badge earned: <b>${esc(b)}</b></span></div>`).join("")}
+          ${nextIdx >= 0 ? `<div class="gain"><span class="ic">+</span><span>Case ${CASES[nextIdx].id} unlocked: <i>${esc(CASES[nextIdx].teaser)}</i></span></div>` : `<div class="gain"><span class="ic">◷</span><span>That's every file. New cases drop every Monday.</span></div>`}
+        </div>
+        <div class="actions">
+          ${why ? `<button class="btn" data-go="why-parity">Why we're called Parity →</button>` : nextIdx >= 0 ? `<button class="btn" id="next">Open case ${CASES[nextIdx].id} →</button>` : ""}
+          <button class="btn ghost" data-go="passport">See my passport</button>
+        </div>
+      </div>
+      <div>
+        ${receiptHTML(c)}
+        <div class="sharerow"><span>Screenshot the receipt for your story, or</span><button class="linkbtn" id="copycap">copy a caption</button></div>
+      </div>
+    </div>`;
+    if (!why && nextIdx >= 0) $("#next").onclick = () => go("case-" + CASES[nextIdx].id);
+    $("#copycap").onclick = () => {
+      const txt = `${c.name} did it. History books said ${c.famous}. Case ${c.id} closed on Parity.`;
+      const fallback = () => { const s = window.getSelection(), rg = document.createRange(); rg.selectNodeContents($(".receipt")); s.removeAllRanges(); s.addRange(rg); toast("Couldn't copy. Receipt text selected instead."); };
+      try { navigator.clipboard.writeText(txt).then(() => toast("Caption copied"), fallback); } catch (e) { fallback(); }
+    };
+  }
+}
+
+function receiptHTML(c) {
+  const d = new Date(S.solved[c.id].date);
+  const ds = d.toLocaleDateString(undefined, { day: "2-digit", month: "2-digit", year: "numeric" });
+  return `<div class="receipt" role="img" aria-label="Receipt card: ${esc(c.name)}, case ${c.id}">
+    <div class="hd"><div class="t">PARITY</div><div class="s">Archive receipt · Case ${c.id}</div></div>
+    <div class="dash"></div>
+    <div class="row"><span>DATE</span><span>${ds}</span></div>
+    <div class="row"><span>CODE NAME</span><span>${esc(c.code.toUpperCase())}</span></div>
+    <div class="row"><span>FIELD</span><span>${esc(c.field.toUpperCase())}</span></div>
+    <div class="row"><span>YEAR</span><span>${esc(c.year)}</span></div>
+    <div class="dash"></div>
+    <div>ITEM</div><div>${esc(c.claim)}</div>
+    <div class="dash"></div>
+    <div class="row"><span>${esc(c.label.toUpperCase())}</span><span class="x">${esc(c.famous)}</span></div>
+    <div class="row"><span>TAKEN</span><span>${esc(c.taken)}</span></div>
+    <div class="dash"></div>
+    <div>IDENTIFIED AS</div>
+    <div class="her">${esc(c.name)}</div>
+    <div class="dash"></div>
+    <div class="row tot"><span>BALANCE OWED</span><span>1 NAME</span></div>
+    <div class="bar"></div>
+    <div class="ft">REMEMBER HER NAME · KEEP THIS RECEIPT</div>
+  </div>`;
+}
+
+function closeCase() {
+  const c = cur.c;
+  if (cur.gains) return;
+  const beforeN = solvedCount(), beforeRank = rankFor(beforeN)[0], beforeBadges = badges().filter(b => b.got).map(b => b.id);
+  if (!S.solved[c.id]) S.solved[c.id] = { date: Date.now(), firstTry: cur.attempts === 1 };
+  save();
+  const afterRank = rankFor(solvedCount())[0];
+  cur.gains = { rankUp: afterRank !== beforeRank ? afterRank : null, badges: badges().filter(b => b.got && !beforeBadges.includes(b.id)).map(b => b.name) };
+  renderChip();
+}
+
+function setupScratch(box, famous, onDone) {
+  const cv = box.querySelector("canvas"), ctx = cv.getContext("2d");
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const W = box.clientWidth, H = box.clientHeight;
+  cv.width = W * dpr; cv.height = H * dpr; ctx.scale(dpr, dpr);
+  const g = ctx.createLinearGradient(0, 0, W, H); g.addColorStop(0, "#BDB6A6"); g.addColorStop(.5, "#D9D3C4"); g.addColorStop(1, "#AFA897");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  for (let i = 0; i < 900; i++) { ctx.fillStyle = `rgba(80,70,50,${Math.random() * .12})`; ctx.fillRect(Math.random() * W, Math.random() * H, 1.5, 1.5); }
+  ctx.fillStyle = "#3A342A"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.font = "700 11px 'Courier Prime', monospace"; ctx.fillText("YOUR HISTORY BOOK SAYS", W / 2, H / 2 - 26);
+  let size = 30; ctx.font = `${size}px "Special Elite", monospace`;
+  while (ctx.measureText(famous).width > W - 30 && size > 14) { size -= 2; ctx.font = `${size}px "Special Elite", monospace`; }
+  ctx.fillText(famous, W / 2, H / 2 + 6);
+  ctx.font = "11px 'Special Elite', monospace"; ctx.fillText("scratch to restore credit", W / 2, H / 2 + 36);
+  ctx.globalCompositeOperation = "destination-out"; ctx.lineCap = "round"; ctx.lineJoin = "round"; ctx.lineWidth = 38;
+  let down = false, last = null, moves = 0, done = false;
+  const pt = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  const check = () => {
+    const d = ctx.getImageData(0, 0, cv.width, cv.height).data; let clear = 0, tot = 0;
+    for (let i = 3; i < d.length; i += 64) { tot++; if (d[i] === 0) clear++; }
+    if (clear / tot > .5 && !done) { done = true; box.classList.add("cleared"); onDone(); }
+  };
+  cv.addEventListener("pointerdown", e => { down = true; last = pt(e); cv.setPointerCapture(e.pointerId); ctx.beginPath(); ctx.arc(last[0], last[1], 19, 0, Math.PI * 2); ctx.fill(); });
+  cv.addEventListener("pointermove", e => { if (!down) return; const p = pt(e); ctx.beginPath(); ctx.moveTo(last[0], last[1]); ctx.lineTo(p[0], p[1]); ctx.stroke(); last = p; if (++moves % 8 === 0) check(); });
+  const up = () => { if (down) { down = false; check(); } };
+  cv.addEventListener("pointerup", up); cv.addEventListener("pointercancel", up);
+}
+
+// ---------- passport ----------
+function renderWords() {
+  const learned = Object.keys(S.words || {}).filter(k => GLOSS[k]).sort((a, b) => S.words[a] - S.words[b]);
+  const total = Object.keys(GLOSS).length;
+  $("#words").innerHTML = `<h3>Words you've learned</h3><p class="w-sub">${learned.length} of ${total}. Tap any underlined word in a case to add it here.</p>` +
+    (learned.length ? `<dl class="wordlist">${learned.map(k => `<div><dt>${esc(termTitle(k))}</dt><dd>${esc(GLOSS[k])}</dd></div>`).join("")}</dl>` : `<p class="w-empty">No words yet. Your first case has a few waiting.</p>`);
+}
+function renderPassport() {
+  renderWords();
+  const n = solvedCount(), r = rankFor(n), nr = nextRank(n);
+  const pct = nr ? Math.round(((n - r[1]) / (nr[1] - r[1])) * 100) : 100;
+  $("#idcard").innerHTML = `<div class="k">Investigator rank</div><div class="rank">${esc(r[0])}</div>
+    <div class="k">${nr ? `${nr[1] - n} case${nr[1] - n === 1 ? "" : "s"} to ${esc(nr[0])}` : "Top rank reached"}</div>
+    <div class="meter"><i style="width:${pct}%"></i></div>
+    <div class="ladder">${RANKS.map(x => `<div class="${x[0] === r[0] ? "on" : ""}"><span>${esc(x[0])}</span><span>${x[1]} cases</span></div>`).join("")}</div>`;
+  $("#badges").innerHTML = badges().map(b => `<div class="badge ${b.got ? "got" : ""}"><b>${esc(b.name)}</b>${esc(b.desc)}${b.got ? " · earned" : ""}</div>`).join("");
+  $("#stampgrid").innerHTML = CASES.map((c, i) => isSolved(c.id)
+    ? `<div class="slot got r${(i % 3) + 1}" title="${esc(c.name)}"><span>Case<b>${c.id}</b>${esc(c.name.split(" ").slice(-1)[0])}</span></div>`
+    : `<div class="slot">Case ${c.id}<br>${isUnlocked(i) ? "open" : "sealed"}</div>`).join("");
+  const rb = $("#resetbox");
+  rb.innerHTML = `<button class="linkbtn" id="reset">Clear my progress</button>`;
+  $("#reset").onclick = () => {
+    rb.innerHTML = `<span>Clear all ${n} stamps from this browser?</span><button class="linkbtn" id="yes" style="color:var(--stamp)">Yes, clear</button><button class="linkbtn" id="no">Keep them</button>`;
+    $("#yes").onclick = () => { S = { solved: {} }; save(); cur = null; renderPassport(); renderChip(); toast("Progress cleared"); };
+    $("#no").onclick = renderPassport;
+  };
+}
+
+route();
+})();
+</script>
+
+</body>
+</html>
